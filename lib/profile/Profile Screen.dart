@@ -1,8 +1,10 @@
 import 'package:fit_fusion/profile/ProfleRow.dart';
 import 'package:flutter/material.dart';
 
-import '../login/Login.dart';
+import 'package:fit_fusion/login/Login.dart';
+
 import '../login/Signup.dart';
+
 
 void main() => runApp(MaterialApp(
 
@@ -36,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             TextButton(onPressed: (){},
             child: const Text('SAVE',style:
             TextStyle(fontSize: 18,color: Colors.grey),)
+                
             )
           ],
         ),

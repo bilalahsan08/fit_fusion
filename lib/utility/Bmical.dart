@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Bmical extends StatefulWidget{
@@ -32,7 +31,6 @@ class _BmicalState extends State<Bmical> {
                   controller: wtController,
                   decoration: InputDecoration(
                       labelText: 'Enter your Weigth (in kgs)',
-            
                     prefixIcon: Icon(Icons.line_weight)
                   ),
                   keyboardType: TextInputType.number,
@@ -42,8 +40,7 @@ class _BmicalState extends State<Bmical> {
                   controller: ftController,
                   decoration: InputDecoration(
                       labelText: 'Enter your Height (in feets)',
-            
-                      prefixIcon: Icon(Icons.height)
+                      prefixIcon: Icon(Icons.straighten)
                   ),
                   keyboardType: TextInputType.number,
                 ),
@@ -52,7 +49,6 @@ class _BmicalState extends State<Bmical> {
                   controller: inController,
                   decoration: InputDecoration(
                       labelText: 'Enter your Height (in inches)',
-            
                       prefixIcon: Icon(Icons.height)
                   ),
                   keyboardType: TextInputType.number,

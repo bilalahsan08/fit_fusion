@@ -1,15 +1,19 @@
-import 'package:fit_fusion/login/Login.dart';
-import 'package:fit_fusion/login/Signup.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_fusion/navigationbar/Navbar.dart';
-import 'package:fit_fusion/nutiton/Nutrition%20Home.dart';
-import 'package:fit_fusion/profile/Profile%20Page.dart';
-import 'package:fit_fusion/profile/Profile%20Screen.dart';
-import 'package:fit_fusion/utility/Bmical.dart';
-import 'package:fit_fusion/utility/Utility%20Home.dart';
-import 'package:fit_fusion/workout/Workout%20Home.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(options: FirebaseOptions(
+        apiKey: "AIzaSyD9kEgnU4ko4otNMVT9wkqPXSkXGWurKDE",
+        appId: "1:661975016783:android:29a79068cac4492014d13a",
+        messagingSenderId: "661975016783",
+        projectId: "fitproj-54096"));
+    print("🔥 Firebase initialized successfully!");
+  } catch (e) {
+    print("Firebase Initialization Error: $e");
+  }
   runApp(const MyApp());
 }
 

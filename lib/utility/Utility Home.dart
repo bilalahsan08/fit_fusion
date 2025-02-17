@@ -1,4 +1,5 @@
 import 'package:fit_fusion/utility/Bmical.dart';
+import 'package:fit_fusion/utility/Fatcal.dart';
 import 'package:flutter/material.dart';
 
 class UtilityHomePage extends StatelessWidget{
@@ -54,7 +55,8 @@ class _UtilityHomeState extends State<UtilityHome> {
                buildCard(
                     image: 'assets/images/obesity.png',
                     title: 'FAT CALCULATOR',
-                   onPressed: () {  }),
+                   onPressed: () {Navigator.push(context,
+                       MaterialPageRoute(builder:(context) => Fatcal()));  }),
               // Fifth Card
               buildCard(
                     image: 'assets/images/dumbell.png',
