@@ -20,40 +20,54 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: Center(
         child: IndexedStack(
-          children: widgetlist,
-          index: myindex,
+          children: widgetlist,  // Your list of screens
+          index: myindex,         // The current index to determine which screen to display
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        onTap: (index){
-          setState(() {
-            myindex = index;
-          });
-        },
-        currentIndex: myindex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
-          items: const[
-           BottomNavigationBarItem(
-               icon: Icon(Icons.widgets),
-             label: 'Workouts'
-           ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.local_activity),
-                label: 'Nutrition'
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.spa),
-                label: 'Utility'
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Profile'
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[100], // Bottom bar background same as page
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
             ),
           ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.grey[100], // Light grey background
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            setState(() {
+              myindex = index; // Change to the selected index
+            });
+          },
+          currentIndex: myindex, // Track the selected tab
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
+          elevation: 0, // Remove extra shadow (we added our own)
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.widgets),
+              label: 'Workouts',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_activity),
+              label: 'Nutrition',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.spa),
+              label: 'Utility',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fit_fusion/login/Login.dart';
+import 'package:fit_fusion/login/Splashscreen.dart';
 import 'package:fit_fusion/navigationbar/Navbar.dart';
 import 'package:flutter/material.dart';
 
@@ -11,10 +13,11 @@ void main() async{
         messagingSenderId: "661975016783",
         projectId: "fitproj-54096"));
     print("🔥 Firebase initialized successfully!");
+    runApp(const MyApp());
   } catch (e) {
     print("Firebase Initialization Error: $e");
   }
-  runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -29,7 +32,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: Navbar(),
+      home: Splashscreen(),
     );
   }
 }
@@ -40,13 +43,13 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
-      body: Container(
+        appBar: AppBar(
+          title: const Text('Home'),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        ),
+        body: Container(
 
-      )
+        )
     );
   }
 }

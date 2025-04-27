@@ -27,83 +27,146 @@ class _UtilityHomeState extends State<UtilityHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true, // Allow background under the AppBar
       appBar: AppBar(
-        title: Text('Utility',style: Theme.of(context).textTheme.headlineLarge),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // First Card
-               buildCard(
-                    image: 'assets/images/statistics.png',
-                    title: 'REPORT',
-                   onPressed: () {  }),
-              // Second Card
-              buildCard(
-                    image: 'assets/images/bell.png',
-                    title: 'REMINDER',
-                  onPressed: () {  }),
-              // Third Card
-               buildCard(
-                    image: 'assets/images/bmi.png',
-                    title: 'BMI CALCULATOR',
-                   onPressed: () {Navigator.push(context,
-                       MaterialPageRoute(builder:(context) => Bmical()));  }),
-              // Forth Card
-               buildCard(
-                    image: 'assets/images/obesity.png',
-                    title: 'FAT CALCULATOR',
-                   onPressed: () {Navigator.push(context,
-                       MaterialPageRoute(builder:(context) => Fatcal()));  }),
-              // Fifth Card
-              buildCard(
-                    image: 'assets/images/dumbell.png',
-                    title: 'ONE REP MAX',
-                  onPressed: () {  }),
-              // Sixth Card
-               buildCard(
-                    image: 'assets/images/calculator.png',
-                    title: 'BASIC METABOLIC RATE',
-                   onPressed: () {  }),
-              // Seventh Card
-               buildCard(
-                    image: 'assets/images/power.png',
-                    title: 'FAT FREE MASS INDEX',
-                   onPressed: () {  }),
-            ],
+        title: Text(
+          'Utility',
+          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
           ),
         ),
-      )
-    );
-  }
-  Widget buildCard({required String image, required String title,required VoidCallback onPressed}) {
-    return Card(
-      elevation: 2,
-      child: InkWell(
-        onTap: onPressed,
-        splashColor: Colors.grey.withOpacity(0.2),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          height: 100,
-          width: double.infinity, // Ensures the card takes the full width of the parent
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 35,
-                backgroundImage: AssetImage(image),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black87),
+      ),
+      body: Container(
+        color: Colors.grey[200], // Updated: grey background
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  buildCard(
+                    image: 'assets/images/statistics.png',
+                    title: 'REPORT',
+                    onPressed: () {},
+                  ),
+                  buildCard(
+                    image: 'assets/images/bell.png',
+                    title: 'REMINDER',
+                    onPressed: () {
+                    },
+                  ),
+                  buildCard(
+                    image: 'assets/images/bmi.png',
+                    title: 'BMI CALCULATOR',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Bmical()),
+                      );
+                    },
+                  ),
+                  buildCard(
+                    image: 'assets/images/obesity.png',
+                    title: 'FAT CALCULATOR',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Fatcal()),
+                      );
+                    },
+                  ),
+                  buildCard(
+                    image: 'assets/images/dumbell.png',
+                    title: 'ONE REP MAX',
+                    onPressed: () {},
+                  ),
+                  buildCard(
+                    image: 'assets/images/calculator.png',
+                    title: 'BASIC METABOLIC RATE',
+                    onPressed: () {},
+                  ),
+                  buildCard(
+                    image: 'assets/images/power.png',
+                    title: 'FAT FREE MASS INDEX',
+                    onPressed: () {},
+                  ),
+                ],
               ),
-              const SizedBox(width: 10),
-              Text(
-                title,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
+    Widget buildCard({
+      required String image,
+      required String title,
+      required VoidCallback onPressed,
+    }) {
+      return AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.95),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              spreadRadius: 3,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(20),
+          splashColor: Colors.blueAccent.withOpacity(0.2),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            height: 110,
+            width: double.infinity,
+            child: Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [Colors.blueAccent, Colors.lightBlueAccent],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 35,
+                    backgroundImage: AssetImage(image),
+                    backgroundColor: Colors.white,
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+                Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
