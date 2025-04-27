@@ -28,6 +28,11 @@ class _MyHomePageState extends State<Fatcal> {
       final bodyFat = calculateBodyFat(abdomen, neck, height);
       setState(() {
         result = "Fat Percentage: ${bodyFat.toStringAsFixed(2)}%";
+
+        // Clear the text fields after calculation
+        abdomenController.clear();
+        neckController.clear();
+        heightController.clear();
       });
     } else {
       setState(() {
@@ -39,176 +44,194 @@ class _MyHomePageState extends State<Fatcal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text('Fat Calculator'),
+        title: const Text(
+          'Fat Calculator',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.grey[200],
       ),
-      body:Center(
-          child: Container(
-            width: 350,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Calculate Body Fat ",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Center(
+        child: Container(
+          width: 350,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Calculate Body Fat",
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
-                  SizedBox(height: 30),
-                  TextField(
-                    controller: abdomenController,
-                    decoration: InputDecoration(
-                      label: Text("Abdomen Circumference (cm)"),
-                        prefixIcon: Icon(Icons.accessibility),
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 20),
-                  TextField(
-                    controller: neckController,
-                    decoration: InputDecoration(
-                      label: Text("Neck Circumference (cm)"),
-                        prefixIcon: Icon(Icons.accessibility_new),
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 20),
-                  TextField(
-                    controller: heightController,
-                    decoration: InputDecoration(
-                      label: Text("Height (cm)"),
-                        prefixIcon: Icon(Icons.straighten),
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                  SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: calculate,
-                    child: Text("Calculate"),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    result,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                  ),
-                  Card(
-                    elevation: 2,
-                    margin: EdgeInsets.all(5),
+                ),
+                const SizedBox(height: 30),
+
+                _buildInputField(
+                  controller: abdomenController,
+                  label: "Abdomen Circumference (cm)",
+                  icon: Icons.accessibility,
+                ),
+                const SizedBox(height: 20),
+
+                _buildInputField(
+                  controller: neckController,
+                  label: "Neck Circumference (cm)",
+                  icon: Icons.accessibility_new,
+                ),
+                const SizedBox(height: 20),
+
+                _buildInputField(
+                  controller: heightController,
+                  label: "Height (cm)",
+                  icon: Icons.straighten,
+                ),
+                const SizedBox(height: 30),
+
+                ElevatedButton(
+                  onPressed: calculate,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.read_more, color: Colors.blue,size: 32),
-
-                          SizedBox(width: 8),
-                          Text(
-                            "Reference",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                          ]
-                          ),
-                          SizedBox(height: 16),
-                          Table(
-                            border: TableBorder.all(color: Colors.grey),
-                            columnWidths: {
-                              0: FlexColumnWidth(2),
-                              1: FlexColumnWidth(1.5),
-                              2: FlexColumnWidth(1.5),
-                            },
-                            children: [
-                              TableRow(
-                                decoration: BoxDecoration(color: Colors.grey[300]),
-                                children: [
-                                  _tableCell("Category", isHeader: true),
-                                  _tableCell("Women", isHeader: true),
-                                  _tableCell("Men", isHeader: true),
-                                ],
-                              ),
-                              _tableRow("Essential Fat", "10% - 14%", "2% - 6%"),
-                              _tableRow("Athletes", "14% - 21%", "6% - 14%"),
-                              _tableRow("Fitness", "21% - 25%", "14% - 18%"),
-                              _tableRow("Average", "25% - 32%", "18% - 25%"),
-                              _tableRow("Obese", "Above 32%", "Above 25%"),
-                            ],
-                          ),
-                        ],
-                      ),
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  SizedBox(height: 10,),
-
-                  Card(
-                    elevation: 2,
-                    margin: EdgeInsets.all(5),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.info, color: Colors.blue, size: 30),
-                              SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  'Information',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Body Fat Calculator helps you to find out your body fat percentage, your body type and the number of calories you have to burn, to lose 1% of your body fat.'
-                            'BFP Index is the total mass of fat divided by total body mass; body fat includes essential body fat and storage body fat. Essential body fat is needed for life and reproductive functions. The percentage of essential body fat for women is greater than that for men, due to the demands of childbearing and other hormonal functions. An estimate of the amount of body fat that you need to lose is the first step in any successful weight loss program.'
-                            'BFP Index is a good indicator of your body composition and indicates the amount of fat you have in your body.',
-                            style: TextStyle(fontSize: 16, color: Colors.black87),
-                          ),
-                        ],
-                      ),
-                    ),
+                  child: const Text(
+                    "Calculate",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
+                ),
+                const SizedBox(height: 20),
 
-                ],
-              ),
+                Text(
+                  result,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                _buildCard(
+                  title: "Reference",
+                  icon: Icons.read_more,
+                  child: _buildReferenceTable(),
+                ),
+                const SizedBox(height: 15),
+
+                _buildCard(
+                  title: "Information",
+                  icon: Icons.info,
+                  child: const Text(
+                    'Body Fat Calculator helps you to find out your body fat percentage, your body type and the number of calories you have to burn, to lose 1% of your body fat.\n\n'
+                        'BFP Index is the total mass of fat divided by total body mass; body fat includes essential body fat and storage body fat.\n\n',
+
+                    style: TextStyle(fontSize: 16, color: Colors.black87, height: 1.5),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
+      ),
     );
   }
-}
-TableRow _tableRow(String category, String women, String men) {
-  return TableRow(
-    children: [
-      _tableCell(category),
-      _tableCell(women),
-      _tableCell(men),
-    ],
-  );
-}
 
-Widget _tableCell(String text, {bool isHeader = false}) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
-        fontSize: 14,
+  Widget _buildInputField({required TextEditingController controller, required String label, required IconData icon}) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        filled: true,
+        fillColor: Colors.white,
       ),
-    ),
-  );
+      keyboardType: TextInputType.number,
+    );
+  }
+
+  Widget _buildCard({required String title, required IconData icon, required Widget child}) {
+    return Card(
+      color: Colors.white,
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: Colors.blue, size: 30),
+                const SizedBox(width: 10),
+                Text(
+                  title,
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            child,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildReferenceTable() {
+    return Table(
+      border: TableBorder.all(color: Colors.grey),
+      columnWidths: const {
+        0: FlexColumnWidth(2),
+        1: FlexColumnWidth(1.5),
+        2: FlexColumnWidth(1.5),
+      },
+      children: [
+        TableRow(
+          decoration: BoxDecoration(color: Colors.grey[300]),
+          children: [
+            _tableCell("Category", isHeader: true),
+            _tableCell("Women", isHeader: true),
+            _tableCell("Men", isHeader: true),
+          ],
+        ),
+        _tableRow("Essential Fat", "10% - 14%", "2% - 6%"),
+        _tableRow("Athletes", "14% - 21%", "6% - 14%"),
+        _tableRow("Fitness", "21% - 25%", "14% - 18%"),
+        _tableRow("Average", "25% - 32%", "18% - 25%"),
+        _tableRow("Obese", "Above 32%", "Above 25%"),
+      ],
+    );
+  }
+
+  TableRow _tableRow(String category, String women, String men) {
+    return TableRow(
+      children: [
+        _tableCell(category),
+        _tableCell(women),
+        _tableCell(men),
+      ],
+    );
+  }
+
+  Widget _tableCell(String text, {bool isHeader = false}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
+          fontSize: 15,
+        ),
+      ),
+    );
+  }
 }
