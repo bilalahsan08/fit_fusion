@@ -1,12 +1,63 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'SidePlank.dart';
+import 'StartExercise.dart';
 
+class Exercise {
+  final String name;
+  final String duration;
+  final String imagePath;
+
+  Exercise({required this.name, required this.duration,required this.imagePath});
+}
+
+class ExerciseDetailPage extends StatelessWidget {
+  final Exercise exercise;
+
+  const ExerciseDetailPage({required this.exercise});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(exercise.name)),
+      body: Column(
+        children: [
+          Image.asset(exercise.imagePath),
+          Text('Duration: ${exercise.duration}'),
+          Text('Instructions will go here'),
+        ],
+      ),
+    );
+  }
+}
 class Sixpack extends StatefulWidget{
   @override
   State<Sixpack> createState() => _SixpackState();
 }
 
 class _SixpackState extends State<Sixpack> {
+  final List<Exercise> exercises = [
+    Exercise(
+      name: 'Crunches',
+      duration: '30 s',
+      imagePath: 'assets/images/crunches.png',
+    ),
+    Exercise(
+      name: 'Plank & Rear Kick',
+      duration: '30 s',
+      imagePath: 'assets/images/plankrearkick.png',
+    ),
+    Exercise(
+      name: 'Leg Lifts',
+      duration: '30 s',
+      imagePath: 'assets/images/leglifts.png',
+    ),
+    Exercise(
+      name: 'Toe Touches',
+      duration: '30 s',
+      imagePath: 'assets/images/toetouch.png',
+    ),
+  ];
   double _selectedMinutes = 15; // Initialize with default time value (15 minutes)
 
   void _updateMinutes(double newMinutes) {
@@ -112,6 +163,12 @@ class _SixpackState extends State<Sixpack> {
                       'Exercise List',
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                     ),
+                    SizedBox(height: 10),
+                    Column(
+                      children: exercises.map((exercise) => ExerciseItem(exercise: exercise)).toList(),
+                    ),
+                    SizedBox(height: 80),
+                    //Exercise List
                   ],
                 ),
               ),
@@ -128,6 +185,8 @@ class _SixpackState extends State<Sixpack> {
                   child: ElevatedButton(
                     onPressed: () {
                       // Start action
+                      Navigator.push(context,
+                          MaterialPageRoute(builder:(context) => CrunchesWorkoutPage()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -271,7 +330,62 @@ class WarmupToggle extends StatefulWidget {
   @override
   _WarmupToggleState createState() => _WarmupToggleState();
 }
+class ExerciseItem extends StatelessWidget {
+  final Exercise exercise;
 
+  const ExerciseItem({required this.exercise});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(8),
+      child: InkWell(
+        onTap: () {
+          // Navigation based on exercise name
+          switch(exercise.name) {
+            case 'Crunches':
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Crunches(),
+                ),
+              );
+              break;
+            // case 'Plank & Rear Kick':
+            //   Navigator.push(context, MaterialPageRoute(
+            //       builder: (context) => CrunchesPage()));
+            //   break;
+            // case 'Leg Lifts':
+            //   Navigator.push(context, MaterialPageRoute(
+            //       builder: (context) => LegLiftsPage()));
+            //   break;
+            // case 'Toe Touches':
+            //   Navigator.push(context, MaterialPageRoute(
+            //       builder: (context) => ToeTouchesPage()));
+            //   break;
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Image.asset(exercise.imagePath, width: 60, height: 60),
+              SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(exercise.name,
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text(exercise.duration),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 class _WarmupToggleState extends State<WarmupToggle> {
   bool isOn = false;
 
