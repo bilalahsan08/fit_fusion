@@ -10,7 +10,7 @@ void main() => runApp(MaterialApp(
 
   initialRoute: '/login',
   routes: {
-    '/signup': (context) => Signup(),
+    '/sig nup': (context) => Signup(),
     '/login': (context) => Login(),
     '/profile': (context) => ProfileScreen(),
   },

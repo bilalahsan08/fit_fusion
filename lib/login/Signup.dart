@@ -121,7 +121,7 @@ class Signup extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Login(email: _email.text.trim()),
+                          builder: (context) => Login(),
                         ),
                       );
                     },

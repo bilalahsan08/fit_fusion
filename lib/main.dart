@@ -1,10 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_fusion/api/firebase_api.dart';
 import 'package:fit_fusion/login/Login.dart';
-import 'package:fit_fusion/login/Splashscreen.dart';
-import 'package:fit_fusion/navigationbar/Navbar.dart';
 import 'package:flutter/material.dart';
-
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -21,10 +18,8 @@ void main() async{
   }
 
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,7 +36,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

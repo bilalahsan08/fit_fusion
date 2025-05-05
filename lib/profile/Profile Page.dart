@@ -1,3 +1,4 @@
+import 'package:fit_fusion/login/DoctorLogin.dart';
 import 'package:fit_fusion/login/Login.dart';
 import 'package:fit_fusion/profile/Profile%20Screen.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
             title: 'Log Out',
             icon: 'assets/images/logout.png',
             onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => DoctorLogin()));
             },
             isLogout: true,
           ),
