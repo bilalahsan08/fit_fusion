@@ -51,18 +51,18 @@ class _UtilityHomeState extends State<UtilityHome> {
                 children: [
                   buildCard(
                     image: 'assets/images/statistics.png',
-                    title: 'REPORT',
+                    title: 'Report',
                     onPressed: () {},
                   ),
                   buildCard(
                     image: 'assets/images/bell.png',
-                    title: 'REMINDER',
+                    title: 'Reminder',
                     onPressed: () {
                     },
                   ),
                   buildCard(
                     image: 'assets/images/bmi.png',
-                    title: 'BMI CALCULATOR',
+                    title: 'BMI Calculator',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -72,7 +72,7 @@ class _UtilityHomeState extends State<UtilityHome> {
                   ),
                   buildCard(
                     image: 'assets/images/obesity.png',
-                    title: 'FAT CALCULATOR',
+                    title: 'Fat Calculator',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -82,17 +82,17 @@ class _UtilityHomeState extends State<UtilityHome> {
                   ),
                   buildCard(
                     image: 'assets/images/dumbell.png',
-                    title: 'ONE REP MAX',
+                    title: 'One Rep Max',
                     onPressed: () {},
                   ),
                   buildCard(
                     image: 'assets/images/calculator.png',
-                    title: 'BASIC METABOLIC RATE',
+                    title: 'Basic Metabolic Rate',
                     onPressed: () {},
                   ),
                   buildCard(
                     image: 'assets/images/power.png',
-                    title: 'FAT FREE MASS INDEX',
+                    title: 'Fat Free Mass Index',
                     onPressed: () {},
                   ),
                 ],

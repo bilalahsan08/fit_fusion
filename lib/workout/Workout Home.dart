@@ -1,9 +1,12 @@
 import 'package:fit_fusion/workout/cardio/Cardio.dart';
+import 'package:fit_fusion/workout/loseFat/Balancedfat.dart';
+import 'package:fit_fusion/workout/loseFat/Endurance.dart';
+import 'package:fit_fusion/workout/loseFat/Supercardio.dart';
+import 'package:fit_fusion/workout/loseFat/WeightLose.dart';
+import 'package:fit_fusion/workout/loseFat/leantone.dart';
 import 'package:fit_fusion/workout/strength/Strength.dart';
 import 'package:fit_fusion/workout/warmup/Warmup.dart';
 import 'package:fit_fusion/workout/yoga/Yoga.dart';
-import 'package:flutter/material.dart';
-
 import 'package:flutter/material.dart';
 
 class WorkoutHome extends StatefulWidget {
@@ -80,10 +83,61 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Warmup())),
               ),
               const SizedBox(height: 20),
-              const WorkoutPlanCard(),
+              WorkoutPlanCard(
+                  title: 'Super Cardio Burner',
+                  imagePath: 'assets/images/up.png',
+                  duration: '10 Weeks',
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Supercardio())),
+              ),
               const SizedBox(height: 20),
               CustomWorkoutCard(),
               const SizedBox(height: 20),
+              Text('Lose fat', style: TextStyle(fontSize: 20,fontWeight: FontWeight.w900),),
+              const SizedBox(height: 2),
+              Text('You need to get your heart rate up to burn calories, and that what these plan are for',
+                style: TextStyle(fontSize: 17,color: Colors.grey),),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 350,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    FitnessCard(
+                      title: "Weight Loss",
+                      duration: "5 weeks",
+                      imagePath: 'assets/images/powerjump.png',
+                      cardioLevel: 0.8,
+                      strengthLevel: 0.4,
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WeightLose())),
+                    ),
+                    FitnessCard(
+                      title: "Balanced Fat",
+                      duration: "5 weeks",
+                      imagePath: 'assets/images/complexcore.png',
+                      cardioLevel: 0.6,
+                      strengthLevel: 0.4,
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Balancedfat())),
+                    ),
+                    FitnessCard(
+                      title: "Endurance Builder",
+                      duration: "6 weeks",
+                      imagePath: 'assets/images/tabata.png',
+                      cardioLevel: 0.4,
+                      strengthLevel: 0.7,
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Endurance())),
+                    ),
+                    FitnessCard(
+                      title: "Lean & Tone",
+                      duration: "5 weeks",
+                      imagePath: 'assets/images/upperbody.png',
+                      cardioLevel: 0.5,
+                      strengthLevel: 0.9,
+                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => leantone())),
+                    ),
+                  ],
+                ),
+              ),
+
             ],
           ),
         ),
@@ -183,68 +237,78 @@ class CustomWorkoutCard extends StatelessWidget {
 }
 
 class WorkoutPlanCard extends StatelessWidget {
-  const WorkoutPlanCard({super.key});
+  final String title;
+  final String imagePath;
+  final String duration;
+  final VoidCallback onPressed;
+
+  const WorkoutPlanCard({
+    super.key,
+    required this.title,
+    required this.imagePath,
+    required this.duration,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+    return InkWell(
+      onTap: onPressed,
       borderRadius: BorderRadius.circular(20),
-      child: Stack(
-        children: [
-          SizedBox(
-            height: 300,
-            width: double.infinity,
-            child: Image.asset(
-              'assets/images/up.png',
-              fit: BoxFit.cover,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          children: [
+            SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Positioned(
-            top: 16,
-            left: 16,
-            right: 16,
-            child: Row(
-              children: [
-                _tagLabel('Your Personal Plan', Colors.limeAccent),
-                const SizedBox(width: 8),
-                _tagLabel('12 weeks', Colors.white70),
-              ],
-            ),
-          ),
-          Positioned(
-            top: 70,
-            left: 16,
-            child: _smallInfoLabel('87% Reported Weight Loss'),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width - 30,
-              padding: const EdgeInsets.all(20),
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 16,
+              child: Row(
                 children: [
-                  const Text(
-                    'Super Cardio Burner',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      _iconWithText(Icons.signal_cellular_alt, 'Cardio', Colors.green),
-                      const SizedBox(width: 20),
-                      _iconWithText(Icons.signal_cellular_alt, 'Strength', Colors.grey),
-                    ],
-                  )
+                  _tagLabel('Your Personal Plan', Colors.limeAccent),
+                  const SizedBox(width: 8),
+                  _tagLabel(duration, Colors.white70),
                 ],
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width - 30,
+                padding: const EdgeInsets.all(20),
+                color: Colors.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        _iconWithText(Icons.signal_cellular_alt, 'Cardio', Colors.green),
+                        const SizedBox(width: 20),
+                        _iconWithText(Icons.signal_cellular_alt, 'Strength', Colors.green),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -263,21 +327,6 @@ class WorkoutPlanCard extends StatelessWidget {
     );
   }
 
-  Widget _smallInfoLabel(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.black26),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-      ),
-    );
-  }
-
   Widget _iconWithText(IconData icon, String label, Color color) {
     return Row(
       children: [
@@ -288,6 +337,105 @@ class WorkoutPlanCard extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: color),
         ),
       ],
+    );
+  }
+}
+
+
+class FitnessCard extends StatelessWidget {
+  final String title;
+  final String duration;
+  final String imagePath;
+  final double cardioLevel;
+  final double strengthLevel;
+  final VoidCallback onPressed;
+
+  const FitnessCard({
+    Key? key,
+    required this.title,
+    required this.duration,
+    required this.imagePath,
+    required this.cardioLevel,
+    required this.strengthLevel,
+    required this.onPressed,
+  }) : super(key: key);
+
+  Widget _buildProgressIndicator(double level, Color color) {
+    return Row(
+      children: [
+        Icon(Icons.fiber_manual_record, color: color, size: 10),
+        SizedBox(width: 4),
+        Expanded(
+          child: LinearProgressIndicator(
+            value: level,
+            backgroundColor: Colors.grey.shade300,
+            valueColor: AlwaysStoppedAnimation<Color>(color),
+            minHeight: 4,
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: 200,
+        margin: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8)],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.asset(imagePath, height: 160, width: double.infinity, fit: BoxFit.cover),
+                ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      duration,
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 12),
+                  _buildProgressIndicator(cardioLevel, Colors.green),
+                  SizedBox(height: 4),
+                  Text("Cardio", style: TextStyle(color: Colors.grey[700])),
+                  SizedBox(height: 8),
+                  _buildProgressIndicator(strengthLevel, Colors.green.shade200),
+                  SizedBox(height: 4),
+                  Text("Strength", style: TextStyle(color: Colors.grey[700])),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

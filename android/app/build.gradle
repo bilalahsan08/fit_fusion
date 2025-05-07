@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.fit_fusion"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

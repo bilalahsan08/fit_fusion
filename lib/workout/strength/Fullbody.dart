@@ -175,7 +175,7 @@ class DurationPickerCard extends StatelessWidget {
           ),
           SizedBox(width: 10),
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: Icon(Icons.access_time_sharp),
             onPressed: () {
               showModalBottomSheet(
                 context: context,

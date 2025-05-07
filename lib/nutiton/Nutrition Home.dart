@@ -1,5 +1,8 @@
+import 'package:fit_fusion/nutiton/Dietplan.dart';
+import 'package:fit_fusion/nutiton/Doctor.dart';
 import 'package:fit_fusion/nutiton/Foodcal.dart';
 import 'package:fit_fusion/nutiton/Proteincal.dart';
+import 'package:fit_fusion/nutiton/Stepcount.dart';
 import 'package:fit_fusion/nutiton/Tips.dart';
 import 'package:flutter/material.dart';
 class NutritionHomePage extends StatelessWidget{
@@ -8,6 +11,7 @@ class NutritionHomePage extends StatelessWidget{
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+
       ),
     );
   }
@@ -15,6 +19,7 @@ class NutritionHomePage extends StatelessWidget{
 }
 
 class NutritionHome extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,18 +46,18 @@ class NutritionHome extends StatelessWidget{
               child: Column(
                 children: [
                   buildCard(
-                    image: 'assets/images/meal.png',
-                    title: '30 DAYS MEAL PLAN',
-                    onPressed: () {},
+                    image: 'assets/images/doctor.png',
+                    title: 'Dietition Appointment',
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Doctor())),
                   ),
                   buildCard(
                     image: 'assets/images/cutlery.png',
-                    title: 'DIET PLANS',
-                    onPressed: () {},
+                    title: 'Dist Plans',
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Dietplan())),
                   ),
                   buildCard(
                     image: 'assets/images/calories.png',
-                    title: 'FOOD CALORIE',
+                    title: 'Food Calorie',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -62,7 +67,7 @@ class NutritionHome extends StatelessWidget{
                   ),
                   buildCard(
                     image: 'assets/images/protein.png',
-                    title: 'PROTEIN CALCULATOR',
+                    title: 'Protein Calculator',
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -71,21 +76,24 @@ class NutritionHome extends StatelessWidget{
                     },
                   ),
                   buildCard(
-                    image: 'assets/images/restaurant.png',
-                    title: 'SPECIAL DIET PLANS',
-                    onPressed: () {},
+                    image: 'assets/images/step.png',
+                    title: 'Step Track',
+                    onPressed: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Stepcount()),
+                      );
+                    },
                   ),
                   buildCard(
-                    image: 'assets/images/calories (1).png',
-                    title: 'CALORIES CALCULATOR',
+                    image: 'assets/images/restaurant.png',
+                    title: 'Special Diet Plans',
                     onPressed: () {},
                   ),
                   buildCard(
                     image: 'assets/images/idea.png',
-                    title: 'TIPS',
+                    title: 'Tips',
                     onPressed: () {
-                      Navigator.push(
-                        context,
+                      Navigator.push(context,
                         MaterialPageRoute(builder: (context) => Tips()),
                       );
                     },

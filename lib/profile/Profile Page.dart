@@ -1,6 +1,7 @@
-import 'package:fit_fusion/login/Login.dart';
 import 'package:fit_fusion/profile/Profile%20Screen.dart';
 import 'package:flutter/material.dart';
+
+import '../nutiton/Doctor.dart';
 
 class ProfilePage extends StatefulWidget{
   @override
@@ -37,7 +38,10 @@ class _ProfilePageState extends State<ProfilePage> {
             title: 'Edit Profile',
             icon: 'assets/images/edit.png',
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
             },
           ),
           const SizedBox(height: 10),
@@ -73,17 +77,63 @@ class _ProfilePageState extends State<ProfilePage> {
           buildSettingRow(title: 'X', icon: 'assets/images/X.png', onPressed: () {}),
           const SizedBox(height: 30),
 
-          buildSettingRow(
-            title: 'Log Out',
-            icon: 'assets/images/logout.png',
-            onPressed: () {
-              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-            },
-            isLogout: true,
+          // Row with both buttons: Doctor Mode and Log Out
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[600],
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Doctor()),
+                      );
+                    },
+                    icon: const Icon(Icons.medical_services, color: Colors.white),
+                    label: const Text(
+                      'Dietition Mode',
+                      style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red[600],
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                    },
+                    icon: const Icon(Icons.logout, color: Colors.white),
+                    label: const Text(
+                      'Log Out',
+                      style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
         ],
       ),
+
+
     );
   }
 }
@@ -114,70 +164,70 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    class SettingRow extends StatelessWidget {
-    final String title;
-    final String icon;
-    final bool isLogout;
-    final VoidCallback onPressed;
+class SettingRow extends StatelessWidget {
+  final String title;
+  final String icon;
+  final bool isLogout;
+  final VoidCallback onPressed;
 
-    const SettingRow({
+  const SettingRow({
     Key? key,
     required this.title,
     required this.icon,
     required this.onPressed,
     this.isLogout = false,
-    }) : super(key: key);
+  }) : super(key: key);
 
-    @override
-    Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Material(
-    color: Colors.transparent,
-    child: InkWell(
-    borderRadius: BorderRadius.circular(15),
-    onTap: onPressed,
-    child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-    decoration: BoxDecoration(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(15),
-    boxShadow: [
-    BoxShadow(
-    color: Colors.black12,
-    blurRadius: 6,
-    offset: const Offset(0, 2),
-    ),
-    ],
-    ),
-    child: Row(
-    children: [
-    ClipRRect(
-    borderRadius: BorderRadius.circular(12),
-    child: Image.asset(
-    icon,
-    width: 26,
-    height: 26,
-    ),
-    ),
-    const SizedBox(width: 16),
-    Expanded(
-    child: Text(
-    title,
-    style: TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: isLogout ? Colors.redAccent : Colors.black,
-    ),
-    ),
-    ),
-    Icon(
-    Icons.arrow_forward_ios,
-    size: 18,
-    color: Colors.grey,
-    ),
-    ],
-    ),
-    ),
-    ),
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15),
+        onTap: onPressed,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 6,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  icon,
+                  width: 26,
+                  height: 26,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: isLogout ? Colors.redAccent : Colors.black,
+                  ),
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 18,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-    }
-    }
+  }
+}
