@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "661975016783",
-    "project_id": "fitproj-54096",
-    "storage_bucket": "fitproj-54096.firebasestorage.app"
+    "project_number": "471653294026",
+    "project_id": "fit-fusionfinal",
+    "storage_bucket": "fit-fusionfinal.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:661975016783:android:29a79068cac4492014d13a",
+        "mobilesdk_app_id": "1:471653294026:android:43b60e2a6e2b6675197933",
         "android_client_info": {
           "package_name": "com.example.fit_fusion"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD9kEgnU4ko4otNMVT9wkqPXSkXGWurKDE"
+          "current_key": "AIzaSyALsL5HAa5qOU0M5vse4lM9tI5ZsA4m3g4"
         }
       ],
       "services": {

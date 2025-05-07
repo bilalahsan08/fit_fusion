@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_fusion/nutiton/Nutrition%20Home.dart';
 import 'package:fit_fusion/profile/Profile%20Page.dart';
 import 'package:fit_fusion/utility/Utility%20Home.dart';
@@ -10,6 +11,7 @@ class Navbar extends StatefulWidget{
 }
 
 class _NavbarState extends State<Navbar> {
+  final user=FirebaseAuth.instance.currentUser;
   int myindex = 0;
   List<Widget> widgetlist = [
    WorkoutHome(),
