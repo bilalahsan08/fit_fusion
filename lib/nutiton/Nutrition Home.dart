@@ -52,7 +52,7 @@ class NutritionHome extends StatelessWidget{
                   ),
                   buildCard(
                     image: 'assets/images/cutlery.png',
-                    title: 'Dist Plans',
+                    title: 'Diet Plans',
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Dietplan())),
                   ),
                   buildCard(

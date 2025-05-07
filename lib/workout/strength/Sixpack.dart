@@ -1,6 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'SidePlank.dart';
+import 'Exercise Details/Crunches.dart';
+import 'Exercise Details/LegLifts.dart';
+import 'Exercise Details/SidePlankRaises.dart';
+import 'Exercise Details/ToeTouches.dart';
 import 'StartExercise.dart';
 
 class Exercise {
@@ -43,9 +46,9 @@ class _SixpackState extends State<Sixpack> {
       imagePath: 'assets/images/crunches.png',
     ),
     Exercise(
-      name: 'Plank & Rear Kick',
+      name: 'Side Plank Raises',
       duration: '30 s',
-      imagePath: 'assets/images/plankrearkick.png',
+      imagePath: 'assets/images/sideplank.jpg',
     ),
     Exercise(
       name: 'Leg Lifts',
@@ -67,143 +70,151 @@ class _SixpackState extends State<Sixpack> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: Stack(
-        children: [
-          Image.asset(
-            'assets/images/sixpack.png', // Make sure this path exists
-            width: double.infinity,
-            height: 220,
-            fit: BoxFit.cover,
-          ),
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                color: Colors.black.withOpacity(0.1),
-              ),
-            ),
-          ),
-          SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Image.asset(
+                  'assets/images/sixpack.png',
+                  width: double.infinity,
+                  height: 220,
+                  fit: BoxFit.cover,
+                ),
+                Positioned.fill(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    child: Container(
+                      color: Colors.black.withOpacity(0.1),
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
-                    SizedBox(height: 10),
-                    Center(
-                      child: Text(
-                        'Insance Six Pack',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 28,
-                          color: Colors.white.withOpacity(0.8),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Ab workout that will get you a shredded six-pack in no time.',
-                      style: TextStyle(fontSize: 16, color: Colors.white.withOpacity(0.8)),
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.timer, color: Colors.blue),
-                        SizedBox(width: 4),
-                        Text("${_selectedMinutes.round()} minutes"),
-                        SizedBox(width: 16),
-                        Icon(Icons.local_fire_department, color: Colors.orange),
-                        SizedBox(width: 4),
-                        Text("157 calories"),
-                      ],
-                    ),
-                    SizedBox(height: 40),
-
-                    buildCard(
-                      title: 'Music and Sound',
-                      icon: Icons.music_note,
-                      onPressed: () {},
-                    ),
-                    SizedBox(height: 20),
-
-                    DurationPickerCard(
-                      selectedMinutes: _selectedMinutes,
-                      onMinutesChanged: _updateMinutes,
-                    ),
-
-                    Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
-
-                    buildCard(
-                      title: 'Fitness Tools',
-                      icon: Icons.fitness_center_rounded,
-                      onPressed: () {},
-                    ),
-                    Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
-
-                    buildCard(
-                      title: 'Start with warmup',
-                      icon: Icons.loop,
-                      onPressed: () {},
-                      trailing: WarmupToggle(),
-                    ),
-                    SizedBox(height: 20),
-
-                    Text(
-                      'Exercise List',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                    ),
-                    SizedBox(height: 10),
-                    Column(
-                      children: exercises.map((exercise) => ExerciseItem(exercise: exercise)).toList(),
-                    ),
-                    SizedBox(height: 80),
-                    //Exercise List
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: SafeArea(
-                top: false,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Start action
-                      Navigator.push(context,
-                          MaterialPageRoute(builder:(context) => CrunchesWorkoutPage()));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: Text('Start'),
                   ),
                 ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      'Insance Six Pack',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 28,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Ab workout that will get you a shredded six-pack in no time.',
+                    style: TextStyle(fontSize: 16, color: Colors.black54),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.timer, color: Colors.blue),
+                      SizedBox(width: 4),
+                      Text("${_selectedMinutes.round()} minutes"),
+                      SizedBox(width: 16),
+                      Icon(Icons.local_fire_department, color: Colors.orange),
+                      SizedBox(width: 4),
+                      Text("157 calories"),
+                    ],
+                  ),
+                  SizedBox(height: 40),
+
+                  buildCard(
+                    title: 'Music and Sound',
+                    icon: Icons.music_note,
+                    onPressed: () {},
+                  ),
+                  SizedBox(height: 20),
+
+                  DurationPickerCard(
+                    selectedMinutes: _selectedMinutes,
+                    onMinutesChanged: _updateMinutes,
+                  ),
+
+                  Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
+
+                  buildCard(
+                    title: 'Fitness Tools',
+                    icon: Icons.fitness_center_rounded,
+                    onPressed: () {},
+                  ),
+                  Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
+
+                  buildCard(
+                    title: 'Start with warmup',
+                    icon: Icons.loop,
+                    onPressed: () {},
+                    trailing: WarmupToggle(),
+                  ),
+                  SizedBox(height: 20),
+
+                  Text(
+                    'Exercise List',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(height: 10),
+                  Column(
+                    children: exercises
+                        .map((exercise) => ExerciseItem(exercise: exercise))
+                        .toList(),
+                  ),
+                  SizedBox(height: 80), // Enough bottom padding so content doesn't clash with button
+                ],
               ),
             ),
+          ],
+        ),
+      ),
+
+      // 🔥 fixed bottom button outside scrollview
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16),
+        child: SafeArea(
+          top: false,
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StartExercise()));
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 16),
+                textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              child: Text('Start'),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -339,6 +350,7 @@ class ExerciseItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8),
+      color: Colors.grey[100],
       child: InkWell(
         onTap: () {
           // Navigation based on exercise name
@@ -351,18 +363,18 @@ class ExerciseItem extends StatelessWidget {
                 ),
               );
               break;
-            // case 'Plank & Rear Kick':
-            //   Navigator.push(context, MaterialPageRoute(
-            //       builder: (context) => CrunchesPage()));
-            //   break;
-            // case 'Leg Lifts':
-            //   Navigator.push(context, MaterialPageRoute(
-            //       builder: (context) => LegLiftsPage()));
-            //   break;
-            // case 'Toe Touches':
-            //   Navigator.push(context, MaterialPageRoute(
-            //       builder: (context) => ToeTouchesPage()));
-            //   break;
+            case 'Side Plank Raises':
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => SidePlankRaises()));
+              break;
+            case 'Leg Lifts':
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => LegLifts()));
+              break;
+            case 'Toe Touches':
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => ToeTouches()));
+              break;
           }
         },
         child: Padding(

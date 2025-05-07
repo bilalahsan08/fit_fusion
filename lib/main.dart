@@ -1,38 +1,42 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_fusion/api/firebase_api.dart';
 import 'package:fit_fusion/login/Login.dart';
+import 'package:fit_fusion/navigationbar/Navbar.dart';
 import 'package:flutter/material.dart';
-void main() async{
+import 'package:shared_preferences/shared_preferences.dart';
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp(options: FirebaseOptions(
-        apiKey: "AIzaSyALsL5HAa5qOU0M5vse4lM9tI5ZsA4m3g4",
-        appId: "1:471653294026:android:43b60e2a6e2b6675197933",
-        messagingSenderId: "471653294026",
-        projectId: "fit-fusionfinal"));
-    print("🔥 Firebase initialized successfully!");
-    await FirebaseApi().initNotifications();
-    runApp(const MyApp());
-  } catch (e) {
-    print("Firebase Initialization Error: $e");
-  }
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyALsL5HAa5qOU0M5vse4lM9tI5ZsA4m3g4",
+      appId: "1:471653294026:android:43b60e2a6e2b6675197933",
+      messagingSenderId: "471653294026",
+      projectId: "fit-fusionfinal",
+    ),
+  );
+  FirebaseApi().initNotifications();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
+
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+
+  const MyApp({super.key, required this.isLoggedIn});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fit fusion',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
+      title: 'Fit Fusion',
       debugShowCheckedModeBanner: false,
-      home: Login(),
+      home: isLoggedIn ? Navbar() : Login(),
     );
   }
 }
+
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});

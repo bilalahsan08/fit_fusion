@@ -84,9 +84,9 @@ class _WorkoutHomeState extends State<WorkoutHome> {
               ),
               const SizedBox(height: 20),
               WorkoutPlanCard(
-                  title: 'Super Cardio Burner',
-                  imagePath: 'assets/images/up.png',
-                  duration: '10 Weeks',
+                title: 'Super Cardio Burner',
+                imagePath: 'assets/images/up.png',
+                duration: '10 Weeks',
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Supercardio())),
               ),
               const SizedBox(height: 20),
@@ -381,61 +381,61 @@ class FitnessCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
-      child: Container(
-        width: 200,
-        margin: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8)],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
+        onTap: onPressed,
+        child: Container(
+            width: 200,
+            margin: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white,
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8)],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                  child: Image.asset(imagePath, height: 160, width: double.infinity, fit: BoxFit.cover),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                      child: Image.asset(imagePath, height: 160, width: double.infinity, fit: BoxFit.cover),
+                    ),
+                    Positioned(
+                      top: 10,
+                      left: 10,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          duration,
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      duration,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      SizedBox(height: 12),
+                      _buildProgressIndicator(cardioLevel, Colors.green),
+                      SizedBox(height: 4),
+                      Text("Cardio", style: TextStyle(color: Colors.grey[700])),
+                      SizedBox(height: 8),
+                      _buildProgressIndicator(strengthLevel, Colors.green.shade200),
+                      SizedBox(height: 4),
+                      Text("Strength", style: TextStyle(color: Colors.grey[700])),
+                    ],
                   ),
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 12),
-                  _buildProgressIndicator(cardioLevel, Colors.green),
-                  SizedBox(height: 4),
-                  Text("Cardio", style: TextStyle(color: Colors.grey[700])),
-                  SizedBox(height: 8),
-                  _buildProgressIndicator(strengthLevel, Colors.green.shade200),
-                  SizedBox(height: 4),
-                  Text("Strength", style: TextStyle(color: Colors.grey[700])),
-                ],
-              ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
+        );
+    }
 }
