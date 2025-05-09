@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_fusion/login/DoctorSplash.dart';
 import 'package:fit_fusion/login/Login.dart';
 import 'package:fit_fusion/profile/Profile%20Screen.dart';
 import 'package:fit_fusion/nutiton/Doctor.dart';
@@ -149,8 +150,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     onPressed: () {
                       Navigator.push(
+
                         context,
-                        MaterialPageRoute(builder: (context) => Doctor()),
+                        MaterialPageRoute(builder: (context) => SecondarySplashScreen()),
                       );
                     },
                     icon: const Icon(Icons.medical_services, color: Colors.white),
