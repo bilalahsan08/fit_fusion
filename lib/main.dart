@@ -2,8 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_fusion/api/firebase_api.dart';
 import 'package:fit_fusion/login/Login.dart';
 import 'package:fit_fusion/navigationbar/Navbar.dart';
+import 'package:fit_fusion/nutiton/Doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login/DoctorLogin.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fit Fusion',
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn ? Navbar() : Login(),
+      home: isLoggedIn ? Navbar() : LoginPage(),
     );
   }
 }

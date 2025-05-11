@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_fusion/login/DoctorLogin.dart';
 import 'package:fit_fusion/login/DoctorSplash.dart';
 import 'package:fit_fusion/login/Login.dart';
 import 'package:fit_fusion/profile/Profile%20Screen.dart';
@@ -21,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => Login()),
+      MaterialPageRoute(builder: (context) => LoginPage()),
     );
   }
   @override

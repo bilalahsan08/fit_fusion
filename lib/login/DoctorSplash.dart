@@ -21,7 +21,32 @@ class _SecondarySplashScreenState extends State<SecondarySplashScreen> {
   @override
   void initState() {
     super.initState();
-    // _checkAuthUser();
+    _checkAuthUser();
+  }
+  Future<void> _checkAuthUser() async {
+    User? user = _auth.currentUser;
+    if (user == null) {
+      await Future.delayed(Duration(seconds: 3));
+      _navigateToLogin();
+    } else {
+      DatabaseReference userRef = _database.child('Doctor').child(user.uid);
+      DataSnapshot snapshot = await userRef.get();
+
+      if (snapshot.exists) {
+        await Future.delayed(Duration(seconds: 3));
+        _navigateToDoctor();
+      } else {
+        userRef = _database.child('Patient').child(user.uid);
+        snapshot = await userRef.get();
+        if (snapshot.exists) {
+          await Future.delayed(Duration(seconds: 3));
+          _navigateToNavbar();
+        } else {
+          await Future.delayed(Duration(seconds: 3));
+          _navigateToLogin();
+        }
+      }
+    }
   }
 
   @override
@@ -102,14 +127,14 @@ class _SecondarySplashScreenState extends State<SecondarySplashScreen> {
   }
 
   void _navigateToLogin() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
   }
 
   void _navigateToNavbar() {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar()));
   }
 
-  void _navigateToDoctorSignUp() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DoctorLogin()));
+  void _navigateToDoctor() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Doctor()));
   }
 }

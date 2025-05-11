@@ -67,7 +67,7 @@ class Login extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ForgotPassword()),
+                      MaterialPageRoute(builder: (context) => ForgotPassword2()),
                     );
                   },
                   child: Text('Forgot Password?'),
@@ -132,7 +132,7 @@ class Login extends StatelessWidget {
   }
 }
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword2 extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
