@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fit_fusion/api/firebase_api.dart';
+import 'package:fit_fusion/api/services/firebase_api.dart';
 import 'package:fit_fusion/login/Login.dart';
 import 'package:fit_fusion/navigationbar/Navbar.dart';
 import 'package:fit_fusion/nutiton/Doctor.dart';
@@ -53,6 +53,7 @@ class MyHomePage extends StatelessWidget {
         body: Container(
 
         )
+
     );
   }
 }

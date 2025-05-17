@@ -1,3 +1,4 @@
+import 'package:fit_fusion/Screens/chat_screen.dart';
 import 'package:fit_fusion/workout/cardio/Cardio.dart';
 import 'package:fit_fusion/workout/loseFat/Balancedfat.dart';
 import 'package:fit_fusion/workout/loseFat/Endurance.dart';
@@ -142,6 +143,22 @@ class _WorkoutHomeState extends State<WorkoutHome> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen()));
+        },
+        backgroundColor: Colors.white, // or transparent if you want only the image look
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Image.asset(
+            'assets/images/AICHAT.png',
+            height: 35,
+            width: 35,
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+
     );
   }
 }

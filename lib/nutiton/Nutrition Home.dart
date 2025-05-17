@@ -5,6 +5,8 @@ import 'package:fit_fusion/nutiton/Proteincal.dart';
 import 'package:fit_fusion/nutiton/Stepcount.dart';
 import 'package:fit_fusion/nutiton/Tips.dart';
 import 'package:flutter/material.dart';
+import '../doctor/pages/DoctorHomePage.dart';
+import '../profile/PatientHomePage.dart';
 class NutritionHomePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class NutritionHome extends StatelessWidget{
                   buildCard(
                     image: 'assets/images/doctor.png',
                     title: 'Dietition Appointment',
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Doctor())),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PatientHomePage())),
                   ),
                   buildCard(
                     image: 'assets/images/cutlery.png',

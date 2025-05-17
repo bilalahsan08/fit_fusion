@@ -4,11 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fit_fusion/navigationbar/Navbar.dart';
-import 'package:fit_fusion/nutiton/Doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+
+import '../nutiton/Doctor.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -28,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String phoneNumber = '';
   String firstName = '';
   String lastName = '';
-  String city = 'Lahore';
+  String city = 'Islamabad';
   String profileImageUrl = '';
   String category = 'Fitness Advisor';
   String qualification = '';
@@ -330,10 +331,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: DropdownButtonFormField<String>(
                       value: city,
                       items: [
-                        'Lahore',
                         'Islamabad',
-                        'Karachi',
                         'Rawalpindi',
+                        'Lahore',
+                        'Karachi',
                       ].map((String city) {
                         return DropdownMenuItem(
                           value: city,
@@ -425,9 +426,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         value: category,
                         items: [
                           'Fitness Advisor',
-                          'Training Specialist',
                           'Performance Coach',
-                          'Gym Manager'
+                          'Gym Manager',
+                          'VeganDietitian'
                         ].map((String category) {
                           return DropdownMenuItem(
                             value: category,
@@ -596,7 +597,7 @@ class _RegisterPageState extends State<RegisterPage> {
         User? user = userCredential.user;
 
         if (user != null) {
-          String userTypePath = userType == 'Doctor' ? 'Dietition' : 'User';
+          String userTypePath = userType == 'Dietition' ? 'Dietition' : 'User';
           Map<String, dynamic> userData = {
             'uid': user.uid,
             'email': email,
@@ -609,7 +610,7 @@ class _RegisterPageState extends State<RegisterPage> {
             'longitude': longitude,
           };
 
-          if (userType == 'Doctor') {
+          if (userType == 'Dietition') {
             userData['qualification'] = qualification;
             userData['category'] = category;
             userData['yearsOfExperience'] = yearsOfExperience;
@@ -623,7 +624,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (_imageFile != null) {
             Reference storageReference = FirebaseStorage.instance
                 .ref()
-                .child('profile_images/${user.uid}.jpg');
+                .child('$userTypePath/${user.uid}/profile.jpg');
             UploadTask uploadTask =
             storageReference.putFile(File(_imageFile!.path));
             TaskSnapshot taskSnapshot = await uploadTask;
@@ -637,7 +638,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
-              userType == 'Doctor' ? Doctor() : Navbar(),
+              userType == 'Dietition' ? Doctor() : Navbar(),
             ),
           );
         }

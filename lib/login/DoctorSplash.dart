@@ -7,6 +7,7 @@ import 'package:fit_fusion/nutiton/Doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../doctor/pages/DoctorHomePage.dart';
 import 'Login.dart';
 
 class SecondarySplashScreen extends StatefulWidget {
@@ -24,28 +25,46 @@ class _SecondarySplashScreenState extends State<SecondarySplashScreen> {
     _checkAuthUser();
   }
   Future<void> _checkAuthUser() async {
-    User? user = _auth.currentUser;
-    if (user == null) {
-      await Future.delayed(Duration(seconds: 3));
-      _navigateToLogin();
-    } else {
-      DatabaseReference userRef = _database.child('Doctor').child(user.uid);
-      DataSnapshot snapshot = await userRef.get();
-
-      if (snapshot.exists) {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
         await Future.delayed(Duration(seconds: 3));
-        _navigateToDoctor();
+        _navigateToLogin();
       } else {
-        userRef = _database.child('Patient').child(user.uid);
-        snapshot = await userRef.get();
+        DatabaseReference userRef = _database.child('Dietition').child(user.uid);
+        DataSnapshot snapshot = await userRef.get().catchError((error) {
+          print("Database error: $error");
+          _navigateToLogin();
+          return null;
+        });
+
+        if (snapshot == null) return; // Error case handled
+
         if (snapshot.exists) {
           await Future.delayed(Duration(seconds: 3));
-          _navigateToNavbar();
+          _navigateToDoctor();
         } else {
-          await Future.delayed(Duration(seconds: 3));
-          _navigateToLogin();
+          userRef = _database.child('User').child(user.uid);
+          snapshot = await userRef.get().catchError((error) {
+            print("Database error: $error");
+            _navigateToLogin();
+            return null;
+          });
+
+          if (snapshot == null) return; // Error case handled
+
+          if (snapshot.exists) {
+            await Future.delayed(Duration(seconds: 3));
+            _navigateToNavbar();
+          } else {
+            await Future.delayed(Duration(seconds: 3));
+            _navigateToLogin();
+          }
         }
       }
+    } catch (e) {
+      print("General error: $e");
+      _navigateToLogin();
     }
   }
 
@@ -135,6 +154,6 @@ class _SecondarySplashScreenState extends State<SecondarySplashScreen> {
   }
 
   void _navigateToDoctor() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Doctor()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DoctorHomePage()));
   }
 }

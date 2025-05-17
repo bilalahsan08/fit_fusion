@@ -5,6 +5,7 @@ import 'package:fit_fusion/nutiton/Doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../doctor/pages/DoctorHomePage.dart';
 import 'DoctorSignUp.dart';
 
 class LoginPage extends StatefulWidget {
@@ -222,13 +223,13 @@ class _LoginPageState extends State<LoginPage> {
         User? user = userCredential.user;
 
         if (user != null) {
-          DatabaseReference userRef = _database.child('Doctors').child(user.uid);
+          DatabaseReference userRef = _database.child('Dietition').child(user.uid);
           DataSnapshot snapshot = await userRef.get();
 
           if (snapshot.exists) {
             _navigateToDoctorHome();
           } else {
-            userRef = _database.child('Patients').child(user.uid);
+            userRef = _database.child('User').child(user.uid);
             snapshot = await userRef.get();
             if (snapshot.exists) {
               _navigateToPatientHome();
@@ -271,7 +272,7 @@ class _LoginPageState extends State<LoginPage> {
     if(!_isNavigation){
       _isNavigation = true;
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Doctor()));
+          builder: (context) => DoctorHomePage()));
     }
   }
 
