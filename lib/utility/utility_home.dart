@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:fit_fusion/utility/Bmical.dart';
 import 'package:fit_fusion/utility/Fatcal.dart';
 import 'package:flutter/material.dart';
@@ -64,20 +66,14 @@ class _UtilityHomeState extends State<UtilityHome> {
                     image: 'assets/images/bmi.png',
                     title: 'BMI Calculator',
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Bmical()),
-                      );
+                      Get.toNamed(AppRoutes.bmiCal);
                     },
                   ),
                   buildCard(
                     image: 'assets/images/obesity.png',
                     title: 'Fat Calculator',
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Fatcal()),
-                      );
+                      Get.toNamed(AppRoutes.fatCal);
                     },
                   ),
                   buildCard(

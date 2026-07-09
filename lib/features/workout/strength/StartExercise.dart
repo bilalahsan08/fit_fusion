@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -87,7 +88,7 @@ class _SequentialWorkoutPageState extends State<StartExercise> {
     } else {
       // all exercises done
       _timer?.cancel();
-      Navigator.pop(context);
+      Get.back();
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class _CardioState extends State<Cardio> {
                   IconButton(
                     icon: const Icon(Icons.arrow_back_ios),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
                   ),
                   SizedBox(height: 10),

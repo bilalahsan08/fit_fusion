@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -79,15 +80,11 @@ class _DoctorChatlistPageState extends State<DoctorChatlistPage> {
               child: ListTile(
                 title: Text('Chat with ${patient.firstName} ${patient.lastName}'),
                 onTap: (){
-                  Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => ChatScreen(
+                  Get.to(() => ChatScreen(
                             doctorId:  doctorId,
                             patientId: patient.uid,
                             patientName: '${patient.firstName} ${patient.lastName}',
-                          )
-                      )
-                  );
+                          ));
                 },
               ),
             );

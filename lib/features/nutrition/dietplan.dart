@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:fit_fusion/features/nutrition/Dietplan/breakfast1.dart';
 import 'package:fit_fusion/features/nutrition/Dietplan/breakfast2.dart';
 import 'package:fit_fusion/features/nutrition/Dietplan/breakfast3.dart';
@@ -53,21 +55,21 @@ class Dietplan extends StatelessWidget {
                     imagePath: "assets/images/pancake.png", // Replace with the correct path
                     duration: '15 min',
                     kcal: '456 kcal',
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => breakfast1())),
+                    onPressed: () => Get.toNamed(AppRoutes.breakfast1),
                   ),
                   DietCard(
                     title: "Avocado Egg Wraps",
                     imagePath: "assets/images/wrap.png", // Replace with the correct path
                     duration: '15 min',
                     kcal: '456 kcal',
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => breakfast2())),
+                    onPressed: () => Get.toNamed(AppRoutes.breakfast2),
                   ),
                   DietCard(
                     title: "Cucumber & Avocado Toast",
                     imagePath: "assets/images/toast.png", // Replace with the correct path
                     duration: '15 min',
                     kcal: '456 kcal',
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => breakfast3())),
+                    onPressed: () => Get.toNamed(AppRoutes.breakfast3),
                   ),
                 ],
               ),
@@ -267,4 +269,5 @@ class DietCard extends StatelessWidget {
     );
   }
 }
+
 

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -78,11 +79,11 @@ class _ChatListPageState extends State<ChatListPage> {
             Doctor doctor = _chatList[index];
             return GestureDetector(
               onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatScreen(
+                Get.to(() => ChatScreen(
                   doctorId: doctor.uid,
                   doctorName: '${doctor.firstName} ${doctor.lastName}',
                   patientId: _auth.currentUser!.uid,
-                )));
+                ));
               },
               child: Container(
                   height: 48,

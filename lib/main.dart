@@ -1,7 +1,7 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:fit_fusion/core/routes/app_pages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fit_fusion/core/api/services/firebase_api.dart';
-import 'package:fit_fusion/features/auth/login.dart';
-import 'package:fit_fusion/core/widgets/custom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +24,9 @@ void main() async {
 }
 
 
+
+
+
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
 
@@ -34,7 +37,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Fit Fusion',
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn ? Navbar() : Login(),
+      initialRoute: AppRoutes.splash,
+      getPages: AppPages.pages,
     );
   }
 }
@@ -56,3 +60,4 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+

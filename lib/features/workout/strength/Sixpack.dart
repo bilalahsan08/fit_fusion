@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'Exercise Details/Crunches.dart';
@@ -99,7 +101,7 @@ class _SixpackState extends State<Sixpack> {
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                       onPressed: () {
-                        Navigator.pop(context);
+                        Get.back();
                       },
                     ),
                   ),
@@ -197,10 +199,7 @@ class _SixpackState extends State<Sixpack> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StartExercise()));
+                Get.toNamed(AppRoutes.startExercise);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
@@ -356,24 +355,16 @@ class ExerciseItem extends StatelessWidget {
           // Navigation based on exercise name
           switch(exercise.name) {
             case 'Crunches':
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Crunches(),
-                ),
-              );
+              Get.to(() => Crunches(),);
               break;
             case 'Side Plank Raises':
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => SidePlankRaises()));
+              Get.to(() => SidePlankRaises());
               break;
             case 'Leg Lifts':
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => LegLifts()));
+              Get.to(() => LegLifts());
               break;
             case 'Toe Touches':
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => ToeTouches()));
+              Get.to(() => ToeTouches());
               break;
           }
         },

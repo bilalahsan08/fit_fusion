@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:fit_fusion/features/auth/signup.dart';
 import 'package:fit_fusion/core/widgets/custom_navbar.dart';
 import 'package:fit_fusion/features/workout/workout_home.dart';
@@ -16,10 +18,7 @@ class Login extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => WorkoutHome()),
-    );
+    Get.off(() => WorkoutHome());
   }
 
   @override
@@ -65,10 +64,7 @@ class Login extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ForgotPassword2()),
-                    );
+                    Get.to(() => ForgotPassword2());
                   },
                   child: Text('Forgot Password?'),
                 ),
@@ -83,10 +79,7 @@ class Login extends StatelessWidget {
                     );
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     await prefs.setBool('isLoggedIn', true);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Navbar()),
-                    );
+                    Get.offNamed(AppRoutes.navbar);
                   } on FirebaseAuthException catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(e.message ?? 'An error occurred')),
@@ -108,8 +101,7 @@ class Login extends StatelessWidget {
                   Text("Don't have an account?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Signup()));
+                      Get.off(() => Signup());
                     },
                     child: Text('Sign Up'),
                   ),
@@ -117,10 +109,7 @@ class Login extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => Navbar()),
-                  );
+                  Get.offNamed(AppRoutes.navbar);
                 },
                 child: Text('Login as Guest'),
               ),
@@ -166,7 +155,7 @@ class ForgotPassword2 extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Password reset email sent!')),
                   );
-                  Navigator.pop(context);
+                  Get.back();
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Error: ${e.toString()}')),

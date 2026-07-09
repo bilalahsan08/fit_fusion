@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fit_fusion/features/auth/doctor_login.dart';
@@ -146,14 +148,14 @@ class _SecondarySplashScreenState extends State<SecondarySplashScreen> {
   }
 
   void _navigateToLogin() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+    Get.to(() => LoginPage());
   }
 
   void _navigateToNavbar() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar()));
+    Get.toNamed(AppRoutes.navbar);
   }
 
   void _navigateToDoctor() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DoctorHomePage()));
+    Get.toNamed(AppRoutes.doctorHome);
   }
 }

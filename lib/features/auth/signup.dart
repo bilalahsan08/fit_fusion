@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_fusion/core/widgets/custom_navbar.dart';
@@ -85,12 +87,7 @@ class Signup extends StatelessWidget {
                         SnackBar(content: Text('User Successfully Registered')),
                       );
 
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Navbar(),
-                        ),
-                      );
+                      Get.offNamed(AppRoutes.navbar);
                       }
                     } on FirebaseAuthException catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -118,12 +115,7 @@ class Signup extends StatelessWidget {
                   Text("Already have an account?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(email: _email.text.trim()),
-                        ),
-                      );
+                      Get.toNamed(AppRoutes.login, arguments: _email.text.trim());
                     },
                     child: Text('Log In'),
                   ),

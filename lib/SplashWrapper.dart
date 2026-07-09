@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -32,31 +34,23 @@ class _SplashWrapperState extends State<SplashWrapper> {
       final doctorSnapshot = await _database.child('Dietition').child(user.uid).get();
 
       if (doctorSnapshot.exists) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => DoctorHomePage()),
-        );
+        Get.offNamed(AppRoutes.doctorHome);
         return;
       }
 
       final patientSnapshot = await _database.child('User').child(user.uid).get();
 
       if (patientSnapshot.exists) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Navbar()),
-        );
+        Get.offNamed(AppRoutes.navbar);
         return;
       }
 
       // if user exists but no role found, logout and go to login
       await _auth.signOut();
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Login()),
-      );
+      Get.offNamed(AppRoutes.login);
     } else {
       // No user logged in — go to login
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Login()),
-      );
+      Get.offNamed(AppRoutes.login);
     }
   }
 

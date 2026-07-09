@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -132,13 +133,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                       onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                DoctorDetailPage(doctor: _doctors[index]),
-                          ),
-                        );
+                        Get.to(() => DoctorDetailPage(doctor: _doctors[index]),);
                       },
                       child: DoctorCard(doctor: _doctors[index]));
                 },

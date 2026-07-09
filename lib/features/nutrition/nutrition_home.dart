@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:fit_fusion/features/nutrition/dietplan.dart';
 import 'package:fit_fusion/features/nutrition/doctor.dart';
 import 'package:fit_fusion/features/nutrition/foodcal.dart';
@@ -51,12 +53,12 @@ class NutritionHome extends StatelessWidget{
                   buildCard(
                     image: 'assets/images/doctor.png',
                     title: 'Dietition Appointment',
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PatientHomePage())),
+                    onPressed: () => Get.to(() => PatientHomePage()),
                   ),
                   buildCard(
                     image: 'assets/images/cutlery.png',
                     title: 'Diet Plans',
-                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Dietplan())),
+                    onPressed: () => Get.toNamed(AppRoutes.dietPlan),
                   ),
                   buildCard(
                     image: 'assets/images/calories.png',
@@ -176,4 +178,5 @@ class NutritionHome extends StatelessWidget{
         ),
       );
     }
+
 

@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:fit_fusion/core/widgets/custom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -23,9 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Move to home after delay
     Timer(Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => Navbar()),
-      );
+      Get.offNamed(AppRoutes.navbar);
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -116,16 +117,11 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
                               String docName =
                                   '${widget.doctor.firstName.toString()} ${widget.doctor.lastName.toString()}';
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ChatScreen(
+                              Get.to(() => ChatScreen(
                                     doctorId: widget.doctor.uid,
                                     doctorName: docName,
                                     patientId: currentUserId,
-                                  ),
-                                ),
-                              );
+                                  ),);
                             },
                           )
                         ],

@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:fit_fusion/features/chat/ai_chat_screen.dart';
 import 'package:fit_fusion/features/workout/cardio/Cardio.dart';
 import 'package:fit_fusion/features/workout/loseFat/Balancedfat.dart';
@@ -66,29 +68,29 @@ class _WorkoutHomeState extends State<WorkoutHome> {
               WorkoutCategoryCard(
                 title: 'Strength',
                 image: 'assets/images/strength.png',
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Strength())),
+                onPressed: () => Get.toNamed(AppRoutes.strength),
               ),
               WorkoutCategoryCard(
                 title: 'HIIT, Cardio',
                 image: 'assets/images/cardio.png',
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Cardio())),
+                onPressed: () => Get.toNamed(AppRoutes.cardio),
               ),
               WorkoutCategoryCard(
                 title: 'Yoga, Stretching',
                 image: 'assets/images/legrolling.png',
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Yoga())),
+                onPressed: () => Get.toNamed(AppRoutes.yoga),
               ),
               WorkoutCategoryCard(
                 title: 'Warmup, Recovery',
                 image: 'assets/images/warmup.png',
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Warmup())),
+                onPressed: () => Get.toNamed(AppRoutes.warmup),
               ),
               const SizedBox(height: 20),
               WorkoutPlanCard(
                 title: 'Super Cardio Burner',
                 imagePath: 'assets/images/up.png',
                 duration: '10 Weeks',
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Supercardio())),
+                onPressed: () => Get.toNamed(AppRoutes.superCardio),
               ),
               const SizedBox(height: 20),
               CustomWorkoutCard(),
@@ -109,7 +111,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/powerjump.png',
                       cardioLevel: 0.8,
                       strengthLevel: 0.4,
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => WeightLose())),
+                      onPressed: () => Get.toNamed(AppRoutes.weightLose),
                     ),
                     FitnessCard(
                       title: "Balanced Fat",
@@ -117,7 +119,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/complexcore.png',
                       cardioLevel: 0.6,
                       strengthLevel: 0.4,
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Balancedfat())),
+                      onPressed: () => Get.toNamed(AppRoutes.balancedFat),
                     ),
                     FitnessCard(
                       title: "Endurance Builder",
@@ -125,7 +127,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/tabata.png',
                       cardioLevel: 0.4,
                       strengthLevel: 0.7,
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Endurance())),
+                      onPressed: () => Get.toNamed(AppRoutes.endurance),
                     ),
                     FitnessCard(
                       title: "Lean & Tone",
@@ -133,7 +135,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/upperbody.png',
                       cardioLevel: 0.5,
                       strengthLevel: 0.9,
-                      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => leantone())),
+                      onPressed: () => Get.toNamed(AppRoutes.leanTone),
                     ),
                   ],
                 ),
@@ -145,7 +147,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen()));
+          Get.to(() => ChatScreen());
         },
         backgroundColor: Colors.white, // or transparent if you want only the image look
         child: ClipRRect(
@@ -456,3 +458,4 @@ class FitnessCard extends StatelessWidget {
         );
     }
 }
+

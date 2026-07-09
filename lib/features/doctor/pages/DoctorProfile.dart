@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fit_fusion/features/auth/doctor_login.dart';
@@ -22,18 +24,15 @@ class _DoctorProfileState extends State<DoctorProfile> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close dialog
+                Get.back(); // Close dialog
               },
               child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
-                Navigator.of(context).pop(); // Close dialog
+                Get.back(); // Close dialog
                 await _auth.signOut();
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                      (Route<dynamic> route) => false,
-                );
+                Get.offAllNamed(AppRoutes.login);
               },
               child: const Text('Logout'),
             ),

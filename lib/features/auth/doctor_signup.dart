@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -635,12 +636,7 @@ class _RegisterPageState extends State<RegisterPage> {
             });
           }
 
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-              userType == 'Dietition' ? Doctor() : Navbar(),
-            ),
-          );
+          Get.to(() => userType == 'Dietition' ? Doctor() : Navbar(),);
         }
       } catch (e) {
         _showErrorDialog(e.toString());
@@ -662,7 +658,7 @@ class _RegisterPageState extends State<RegisterPage> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text('OK'),
             ),

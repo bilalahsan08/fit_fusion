@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_fusion/features/auth/doctor_login.dart';
 import 'package:fit_fusion/features/auth/doctor_splash.dart';
@@ -20,10 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     await FirebaseAuth.instance.signOut(); // optional if you're using FirebaseAuth
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => LoginPage()),
-    );
+    Get.off(() => LoginPage());
   }
   @override
   Widget build(BuildContext context) {
@@ -50,10 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
             title: 'Edit Profile',
             icon: 'assets/images/edit.png',
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfileScreen()),
-              );
+              Get.to(() => ProfileScreen());
             },
           ),
           const SizedBox(height: 10),
@@ -150,11 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       elevation: 3,
                     ),
                     onPressed: () {
-                      Navigator.push(
-
-                        context,
-                        MaterialPageRoute(builder: (context) => SecondarySplashScreen()),
-                      );
+                      Get.to(() => SecondarySplashScreen());
                     },
                     icon: const Icon(Icons.medical_services, color: Colors.white),
                     label: const Text(
@@ -190,13 +181,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(); // Close dialog
+                                  Get.back(); // Close dialog
                                 },
                                 child: const Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(); // Close dialog first
+                                  Get.back(); // Close dialog first
                                   logoutUser(context); // Then perform logout
                                 },
                                 child: const Text('Logout'),

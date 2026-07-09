@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'dart:ui';
 
 import 'package:fit_fusion/features/workout/strength/Fullbody.dart';
@@ -41,7 +43,7 @@ class _StrengthState extends State<Strength> {
                   IconButton(
                     icon: const Icon(Icons.arrow_back_ios),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
                   ),
                   SizedBox(height: 10),
@@ -64,8 +66,7 @@ class _StrengthState extends State<Strength> {
                     title: 'Full Body',
                     image: 'assets/images/fullbody.png',
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder:(context) => Fullbody()));
+                      Get.toNamed(AppRoutes.fullBody);
                     },
                   ),
                   SizedBox(height: 20),
@@ -79,8 +80,7 @@ class _StrengthState extends State<Strength> {
                     title: 'Insane Six Pack',
                     image: 'assets/images/sixpack.png',
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder:(context) => Sixpack()));
+                      Get.toNamed(AppRoutes.sixPack);
                     },
                   ),Divider(height: 1, color: Colors.grey.withOpacity(0.2)),
                   buildCard(

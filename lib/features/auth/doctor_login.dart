@@ -1,3 +1,5 @@
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fit_fusion/core/widgets/custom_navbar.dart';
@@ -147,10 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ForgotPassword()),
-                          );
+                          Get.to(() => ForgotPassword());
                         },
                         child: Text('Forgot Password?'),
                       ),
@@ -181,8 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: MediaQuery.of(context).size.width,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => RegisterPage()));
+                          Get.to(() => RegisterPage());
                         },
                         child: Text('Don’t have an account? Register', style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w400),),
                       ),
@@ -192,10 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Navbar()),
-                          );
+                          Get.toNamed(AppRoutes.navbar);
                         },
                         child: Text('Login as Guest'),
                       ),
@@ -258,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text('OK'),
             ),
@@ -271,16 +266,14 @@ class _LoginPageState extends State<LoginPage> {
   void _navigateToDoctorHome() {
     if(!_isNavigation){
       _isNavigation = true;
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DoctorHomePage()));
+      Get.toNamed(AppRoutes.doctorHome);
     }
   }
 
   void _navigateToPatientHome() {
     if(!_isNavigation){
       _isNavigation = true;
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Navbar()));
+      Get.toNamed(AppRoutes.navbar);
     }
   }
 
@@ -320,7 +313,7 @@ class ForgotPassword extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Password reset email sent!')),
                   );
-                  Navigator.pop(context);
+                  Get.back();
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Error: ${e.toString()}')),

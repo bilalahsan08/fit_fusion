@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -110,14 +111,14 @@ class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
                   child: Text('Cancel'),
                 ),
                 TextButton(
                   onPressed: () async {
                     await _updateRequestStatus(requestId, selectedStatus);
-                    Navigator.pop(context);
+                    Get.back();
                   },
                   child: Text('Update Status'),
                 ),
