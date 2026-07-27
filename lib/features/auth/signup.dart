@@ -1,3 +1,4 @@
+import 'package:fit_fusion/core/controllers/auth_controller.dart';
 import 'package:fit_fusion/core/routes/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';

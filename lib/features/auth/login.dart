@@ -1,3 +1,4 @@
+import 'package:fit_fusion/core/controllers/auth_controller.dart';
 import 'package:fit_fusion/core/routes/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:fit_fusion/features/auth/signup.dart';
@@ -14,12 +15,7 @@ class Login extends StatelessWidget {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _auth = FirebaseAuth.instance;
-  void loginUser(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isLoggedIn', true);
-
-    Get.off(() => WorkoutHome());
-  }
+  
 
   @override
   Widget build(BuildContext context) {
