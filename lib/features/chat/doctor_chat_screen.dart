@@ -1,9 +1,11 @@
+import 'package:fit_fusion/core/controllers/chat_controller.dart';
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   final String? doctorId;
   final String? doctorName;
   final String? patientId;
@@ -17,71 +19,12 @@ class ChatScreen extends StatefulWidget {
   });
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final DatabaseReference _chatListDatabase =
-  FirebaseDatabase.instance.ref().child('ChatList');
-  final DatabaseReference _chatDatabase =
-  FirebaseDatabase.instance.ref().child('Chat');
-  final TextEditingController _messageController = TextEditingController();
-  String? _currentUserId;
-
-  bool get isDoctor => _currentUserId == widget.doctorId;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _currentUserId = _auth.currentUser?.uid;
-  }
-
-  // send message method
-  void _sendMessage() {
-    if (_messageController.text.trim().isNotEmpty) {
-      String message = _messageController.text.trim();
-      String chatId = _chatDatabase.push().key!;
-      String timeStamp = DateTime.now().toIso8601String();
-
-      //determine sender and receiver IDs based on the user's role
-      String senderUid;
-      String receiverUid;
-
-      if (isDoctor) {
-        senderUid = _currentUserId!;
-        receiverUid = widget.patientId!;
-      } else {
-        senderUid = _currentUserId!;
-        receiverUid = widget.doctorId!;
-      }
-
-      // save message in Chat database
-      _chatDatabase.child(chatId).set({
-        'message': message,
-        'receiver': receiverUid,
-        'sender': senderUid,
-        'timestamp': timeStamp,
-      });
-
-      //update chatList
-      _chatListDatabase.child(senderUid).child(receiverUid).set({
-        'id': receiverUid,
-      });
-
-      _chatListDatabase.child(receiverUid).child(senderUid).set({
-        'id': senderUid,
-      });
-
-      //clear the message input
-      _messageController.clear();
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    String? chatPartnerName = isDoctor ? widget.patientName : widget.doctorName;
+    final chatController = Get.put(ChatController());
+    bool isDoctor = chatController.currentUserId == doctorId;
+    String? chatPartnerName = isDoctor ? patientName : doctorName;
+
+
 
     return GestureDetector(
       onTap: () {
@@ -98,7 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Expanded(
                 child: StreamBuilder(
-                    stream: _chatDatabase.onValue,
+                    stream: chatController.chatStream,
                     builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                       if (!snapshot.hasData ||
                           snapshot.data?.snapshot.value == null) {
@@ -109,14 +52,14 @@ class _ChatScreenState extends State<ChatScreen> {
                       List<Map<String, dynamic>> messagesList = [];
 
                       messagesMap.forEach((key, value) {
-                        if ((value['sender'] == _currentUserId &&
-                            value['receiver'] == widget.doctorId) ||
-                            (value['sender'] == widget.doctorId &&
-                                value['receiver'] == _currentUserId) ||
-                            (value['sender'] == _currentUserId &&
-                                value['receiver'] == widget.patientId) ||
-                            (value['sender'] == widget.patientId &&
-                                value['receiver'] == _currentUserId)) {
+                        if ((value['sender'] == chatController.currentUserId &&
+                            value['receiver'] == doctorId) ||
+                            (value['sender'] == doctorId &&
+                                value['receiver'] == chatController.currentUserId) ||
+                            (value['sender'] == chatController.currentUserId &&
+                                value['receiver'] == patientId) ||
+                            (value['sender'] == patientId &&
+                                value['receiver'] == chatController.currentUserId)) {
                           messagesList.add({
                             'message': value['message'],
                             'sender': value['sender'],
@@ -131,7 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           itemCount: messagesList.length,
                           itemBuilder: (context, index) {
                             bool isMe =
-                                messagesList[index]['sender'] == _currentUserId;
+                                messagesList[index]['sender'] == chatController.currentUserId;
                             return Align(
                               alignment: isMe
                                   ? Alignment.centerRight
@@ -174,7 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         style: GoogleFonts.poppins(
                             fontSize: 14, fontWeight: FontWeight.normal
                         ),
-                        controller: _messageController,
+                        controller: chatController.messageController,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: Color(0xffF0EFFF),
@@ -187,7 +130,13 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   IconButton(
-                      onPressed: _sendMessage,
+                      onPressed: () {
+                        chatController.sendMessage(
+                          doctorId: doctorId,
+                          patientId: patientId,
+                        );
+                      },
+
                       icon: Icon(
                         Icons.send,
                         size: 30,

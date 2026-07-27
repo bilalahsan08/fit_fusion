@@ -1,3 +1,4 @@
+import 'package:fit_fusion/core/controllers/chat_controller.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -15,9 +16,9 @@ class DoctorChatlistPage extends StatefulWidget {
 }
 
 class _DoctorChatlistPageState extends State<DoctorChatlistPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final DatabaseReference _chatListDatabase = FirebaseDatabase.instance.ref().child('ChatList');
-  final DatabaseReference _patientsDatabase = FirebaseDatabase.instance.ref().child('User');
+  
+  
+  
   List<Patient> _chatList = [];
   bool _isLoading =  true;
   late String doctorId;
@@ -27,40 +28,24 @@ class _DoctorChatlistPageState extends State<DoctorChatlistPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    doctorId = _auth.currentUser?.uid ?? '';
+    final chatController = Get.put(ChatController());
+    doctorId = chatController.currentUserId ?? '';
     _fetchChatList();
   }
 
 
-  Future<void> _fetchChatList() async {
-    if(doctorId.isNotEmpty){
-      try{
-        final DatabaseEvent event = await _chatListDatabase.child(doctorId).once();
-        DataSnapshot snapshot = event.snapshot;
-        List<Patient> tempChatList = [];
-
-        if(snapshot.value != null){
-          Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
-
-          for( var userId in values.keys){
-            final DatabaseEvent patientEvent = await _patientsDatabase.child(userId).once();
-            DataSnapshot patientSnapshot = patientEvent.snapshot;
-            if(patientSnapshot.value != null){
-              Map<dynamic, dynamic> patientMap = patientSnapshot.value as Map<dynamic, dynamic>;
-              tempChatList.add(Patient.fromMap(Map<String, dynamic>.from(patientMap)));
-            }
-          }
-        }
-        setState(() {
-          _chatList = tempChatList;
-          _isLoading = false;
-        });
-
-      }catch (error) {
-        // error message
-      }
+    Future<void> _fetchChatList() async {
+    final chatController = Get.put(ChatController());
+    List<dynamic> rawPatients = await chatController.fetchDoctorChatList();
+    
+    if (mounted) {
+      setState(() {
+        _chatList = rawPatients.map((e) => Patient.fromMap(Map<String, dynamic>.from(e))).toList();
+        _isLoading = false;
+      });
     }
   }
+
 
 
   @override
