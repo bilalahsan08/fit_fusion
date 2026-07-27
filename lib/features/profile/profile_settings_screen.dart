@@ -1,3 +1,4 @@
+import 'package:fit_fusion/core/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_fusion/features/auth/doctor_login.dart';
@@ -15,14 +16,11 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // Logout function with confirmation dialog
-  void logoutUser(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('isLoggedIn'); // or set to false if you prefer
-
-    await FirebaseAuth.instance.signOut(); // optional if you're using FirebaseAuth
-
-    Get.off(() => LoginPage());
+    void logoutUser(BuildContext context) {
+    final authController = Get.put(AuthController());
+    authController.logout();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
