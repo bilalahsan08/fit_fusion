@@ -1,3 +1,4 @@
+import 'package:fit_fusion/core/controllers/doctor_controller.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,7 +15,7 @@ class DoctorRequestsPage extends StatefulWidget {
 }
 
 class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
   final DatabaseReference _requestDatabase =
   FirebaseDatabase.instance.ref().child('Requests');
   List<Booking> _bookings = [];
@@ -27,28 +28,21 @@ class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
     _fetchBookings();
   }
 
-  Future<void> _fetchBookings() async {
-    String? currentUserId = _auth.currentUser?.uid;
-    if (currentUserId != null) {
-      await _requestDatabase
-          .orderByChild('receiver')
-          .equalTo(currentUserId)
-          .once()
-          .then((DatabaseEvent event) {
-        if (event.snapshot.value != null) {
-          Map<dynamic, dynamic> bookingMap =
-          event.snapshot.value as Map<dynamic, dynamic>;
-          _bookings.clear();
-          bookingMap.forEach((key, value) {
-            _bookings.add(Booking.fromMap(Map<String, dynamic>.from(value)));
-          });
+    Future<void> _fetchBookings() async {
+    final doctorController = Get.put(DoctorController());
+    List<dynamic> rawRequests = await doctorController.fetchRequests();
+    
+    if (mounted) {
+      setState(() {
+        _bookings.clear();
+        for (var req in rawRequests) {
+          _bookings.add(Booking.fromMap(Map<String, dynamic>.from(req)));
         }
-        setState(() {
-          _isLoading = false;
-        });
+        _isLoading = false;
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,11 +124,11 @@ class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
     );
   }
 
-  Future<void> _updateRequestStatus(String requestId, String status) async {
-    await _requestDatabase.child(requestId).update({
-      'status': status,
-    });
+    Future<void> _updateRequestStatus(String requestId, String status) async {
+    final doctorController = Get.find<DoctorController>();
+    await doctorController.updateRequestStatus(requestId, status);
     await _fetchBookings();
   }
+
 }
 

@@ -1,3 +1,4 @@
+import 'package:fit_fusion/core/controllers/doctor_controller.dart';
 import 'package:get/get.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -27,23 +28,21 @@ class _DoctorListPageState extends State<DoctorListPage> {
     _fetchDoctors();
   }
 
-  Future<void> _fetchDoctors() async {
-    await _database.once().then((DatabaseEvent event) {
-      DataSnapshot snapshot = event.snapshot;
-      List<Doctor> tmpDoctors = [];
-      if (snapshot.value != null) {
-        Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
-        values.forEach((key, value) {
-          Doctor doctor = Doctor.fromMap(value, key);
-          tmpDoctors.add(doctor);
-        });
-      }
+    Future<void> _fetchDoctors() async {
+    final doctorController = Get.put(DoctorController());
+    List<dynamic> rawDoctors = await doctorController.fetchAllDoctors();
+    
+    if (mounted) {
       setState(() {
-        _doctors = tmpDoctors;
+        _doctors.clear();
+        for (var doc in rawDoctors) {
+          _doctors.add(Doctor.fromMap(doc, doc['uid'] ?? ''));
+        }
         _isLoading = false;
       });
-    });
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {

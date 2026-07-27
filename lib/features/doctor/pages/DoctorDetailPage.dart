@@ -1,3 +1,4 @@
+import 'package:fit_fusion/core/controllers/doctor_controller.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -19,7 +20,7 @@ class DoctorDetailPage extends StatefulWidget {
 }
 
 class _DoctorDetailPageState extends State<DoctorDetailPage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  
   final DatabaseReference _requestDatabase = FirebaseDatabase.instance
       .ref('Requests'); //  it will store appointments requests
 
@@ -113,7 +114,8 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
                             ),
                             onPressed: () {
                               // Add chat functionality
-                              String currentUserId = _auth.currentUser!.uid;
+                              final doctorController = Get.put(DoctorController());
+                              String currentUserId = doctorController.currentUserId ?? '';
                               String docName =
                                   '${widget.doctor.firstName.toString()} ${widget.doctor.lastName.toString()}';
 
@@ -325,25 +327,20 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
     if (_selectedDate != null &&
         _selectedTime != null &&
         _descriptionController.text.isNotEmpty) {
-      // date, time, des, requestId, receiverId, senderId, status
+      
       String date = DateFormat('MM/dd/yyyy').format(_selectedDate!);
       String time = _selectedTime!.format(context);
       String description = _descriptionController.text;
-      String requestId = _requestDatabase.push().key!;
-      String currentUserId = _auth.currentUser!.uid;
       String receiverId = widget.doctor.uid;
-      String status = 'pending';
 
-      //save appointment
-      _requestDatabase.child(requestId).set({
-        'date': date,
-        'time': time,
-        'description': description,
-        'id': requestId,
-        'receiver': receiverId,
-        'sender': currentUserId,
-        'status': status,
-      }).then((_) {
+      final doctorController = Get.put(DoctorController());
+      
+      doctorController.bookAppointment(
+        date: date,
+        time: time,
+        description: description,
+        receiverId: receiverId,
+      ).then((_) {
         setState(() {
           _selectedDate = null;
           _selectedTime = null;
@@ -363,4 +360,3 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
     }
   }
 }
-
