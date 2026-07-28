@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import 'package:fit_fusion/features/doctor/pages/DoctorHomePage.dart';
+import 'package:fit_fusion/features/doctor/pages/doctor_home_page.dart';
 import 'package:fit_fusion/core/widgets/custom_navbar.dart';
 
 import 'package:fit_fusion/features/auth/login.dart';
