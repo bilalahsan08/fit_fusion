@@ -1,8 +1,7 @@
 import 'package:fit_fusion/core/routes/app_routes.dart';
 import 'package:get/get.dart';
-import 'package:fit_fusion/features/nutrition/Dietplan/breakfast1.dart';
-import 'package:fit_fusion/features/nutrition/Dietplan/breakfast2.dart';
-import 'package:fit_fusion/features/nutrition/Dietplan/breakfast3.dart';
+import 'package:fit_fusion/core/data/app_data.dart';
+import 'package:fit_fusion/features/nutrition/pages/meal_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class Dietplan extends StatelessWidget {
@@ -51,25 +50,25 @@ class Dietplan extends StatelessWidget {
               child: Row(
                 children: [
                   DietCard(
-                    title: "Cashew Banana Pancakes",
-                    imagePath: "assets/images/pancake.png", // Replace with the correct path
+                    title: AppData.meals[0].title,
+                    imagePath: AppData.meals[0].imagePath,
                     duration: '15 min',
-                    kcal: '456 kcal',
-                    onPressed: () => Get.toNamed(AppRoutes.breakfast1),
+                    kcal: AppData.meals[0].calories,
+                    onPressed: () => Get.to(() => MealDetailScreen(meal: AppData.meals[0])),
                   ),
                   DietCard(
-                    title: "Avocado Egg Wraps",
-                    imagePath: "assets/images/wrap.png", // Replace with the correct path
+                    title: AppData.meals[1].title,
+                    imagePath: AppData.meals[1].imagePath,
                     duration: '15 min',
-                    kcal: '456 kcal',
-                    onPressed: () => Get.toNamed(AppRoutes.breakfast2),
+                    kcal: AppData.meals[1].calories,
+                    onPressed: () => Get.to(() => MealDetailScreen(meal: AppData.meals[1])),
                   ),
                   DietCard(
-                    title: "Cucumber & Avocado Toast",
-                    imagePath: "assets/images/toast.png", // Replace with the correct path
+                    title: AppData.meals[2].title,
+                    imagePath: AppData.meals[2].imagePath,
                     duration: '15 min',
-                    kcal: '456 kcal',
-                    onPressed: () => Get.toNamed(AppRoutes.breakfast3),
+                    kcal: AppData.meals[2].calories,
+                    onPressed: () => Get.to(() => MealDetailScreen(meal: AppData.meals[2])),
                   ),
                 ],
               ),

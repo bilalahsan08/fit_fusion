@@ -1,10 +1,14 @@
-import 'package:get/get.dart';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:fit_fusion/core/models/workout.dart';
 
-class Balancedfat extends StatelessWidget{
+class WorkoutProgramScreen extends StatelessWidget {
+  final Workout workout;
+
+  const WorkoutProgramScreen({Key? key, required this.workout}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +24,15 @@ class Balancedfat extends StatelessWidget{
                     bottomRight: Radius.circular(24),
                   ),
                   child: Image.asset(
-                    'assets/images/complexcore.png',
+                    workout.imagePath,
                     fit: BoxFit.cover,
                     height: 250,
                     width: double.infinity,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: 250,
+                      color: Colors.grey,
+                      child: const Center(child: Icon(Icons.image_not_supported)),
+                    ),
                   ),
                 ),
                 Positioned.fill(
@@ -38,9 +47,9 @@ class Balancedfat extends StatelessWidget{
                   bottom: 20,
                   left: 20,
                   child: Text(
-                    "Balanced Fat Plan",
+                    workout.title,
                     style: GoogleFonts.poppins(
-                      fontSize: 33,
+                      fontSize: 34,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                       shadows: [
@@ -71,26 +80,32 @@ class Balancedfat extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "5-Week Balanced Fat Loss Plan",
+                    "Overview",
                     style: GoogleFonts.poppins(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Text(
-                    "A sustainable plan combining strength, cardio, and healthy habits to reduce fat while preserving muscle.",
+                    workout.description,
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      color: Colors.grey[700],
+                      color: Colors.grey[800],
+                      height: 1.5,
                     ),
                   ),
                   const SizedBox(height: 24),
-                  _buildWeekCard(1, ["20-min Walk", "Full Body Strength", "Log Meals", "Drink 2.5L Water", "Sleep 7–8h"]),
-                  _buildWeekCard(2, ["15-min HIIT", "Upper Body Strength", "20-min Cycling", "Cut Processed Carbs", "Mindful Eating"]),
-                  _buildWeekCard(3, ["Moderate Strength", "10-min Jump Rope", "Core & Flexibility", "Add Protein Every Meal", "Limit Sugar <25g"]),
-                  _buildWeekCard(4, ["20-min Yoga", "Walk After Meals", "Resistance Band Workout", "Meal Prep", "No Screens Before Sleep"]),
-                  _buildWeekCard(5, ["Final Full-Body Circuit", "Cardio Dance or Hike", "Core Finisher", "Reflect & Set Goals"]),
+                  if (workout.weeklyGoals.isNotEmpty)
+                    Text(
+                      "Weekly Plan",
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  const SizedBox(height: 10),
+                  ...workout.weeklyGoals.entries.map((entry) => _buildWeekCard(entry.key, entry.value)).toList(),
                 ],
               ),
             ),
@@ -111,7 +126,7 @@ class Balancedfat extends StatelessWidget{
             color: Color(0x1A000000),
             blurRadius: 8,
             offset: Offset(0, 4),
-          )
+          ),
         ],
       ),
       padding: const EdgeInsets.all(16),
@@ -147,5 +162,4 @@ class Balancedfat extends StatelessWidget{
       ),
     );
   }
-
 }

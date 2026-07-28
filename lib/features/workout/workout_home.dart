@@ -1,15 +1,8 @@
 import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:fit_fusion/core/data/app_data.dart';
+import 'package:fit_fusion/features/workout/pages/workout_program_screen.dart';
 import 'package:get/get.dart';
 import 'package:fit_fusion/features/chat/ai_chat_screen.dart';
-import 'package:fit_fusion/features/workout/cardio/Cardio.dart';
-import 'package:fit_fusion/features/workout/loseFat/Balancedfat.dart';
-import 'package:fit_fusion/features/workout/loseFat/Endurance.dart';
-import 'package:fit_fusion/features/workout/loseFat/Supercardio.dart';
-import 'package:fit_fusion/features/workout/loseFat/WeightLose.dart';
-import 'package:fit_fusion/features/workout/loseFat/leantone.dart';
-import 'package:fit_fusion/features/workout/strength/Strength.dart';
-import 'package:fit_fusion/features/workout/warmup/Warmup.dart';
-import 'package:fit_fusion/features/workout/yoga/Yoga.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutHome extends StatefulWidget {
@@ -68,29 +61,29 @@ class _WorkoutHomeState extends State<WorkoutHome> {
               WorkoutCategoryCard(
                 title: 'Strength',
                 image: 'assets/images/strength.png',
-                onPressed: () => Get.toNamed(AppRoutes.strength),
+                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'strength'))),
               ),
               WorkoutCategoryCard(
                 title: 'HIIT, Cardio',
                 image: 'assets/images/cardio.png',
-                onPressed: () => Get.toNamed(AppRoutes.cardio),
+                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'cardio'))),
               ),
               WorkoutCategoryCard(
                 title: 'Yoga, Stretching',
                 image: 'assets/images/legrolling.png',
-                onPressed: () => Get.toNamed(AppRoutes.yoga),
+                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'yoga'))),
               ),
               WorkoutCategoryCard(
                 title: 'Warmup, Recovery',
                 image: 'assets/images/warmup.png',
-                onPressed: () => Get.toNamed(AppRoutes.warmup),
+                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'warmup'))),
               ),
               const SizedBox(height: 20),
               WorkoutPlanCard(
                 title: 'Super Cardio Burner',
                 imagePath: 'assets/images/up.png',
                 duration: '10 Weeks',
-                onPressed: () => Get.toNamed(AppRoutes.superCardio),
+                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'super_cardio'))),
               ),
               const SizedBox(height: 20),
               CustomWorkoutCard(),
@@ -111,7 +104,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/powerjump.png',
                       cardioLevel: 0.8,
                       strengthLevel: 0.4,
-                      onPressed: () => Get.toNamed(AppRoutes.weightLose),
+                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'weight_loss'))),
                     ),
                     FitnessCard(
                       title: "Balanced Fat",
@@ -119,7 +112,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/complexcore.png',
                       cardioLevel: 0.6,
                       strengthLevel: 0.4,
-                      onPressed: () => Get.toNamed(AppRoutes.balancedFat),
+                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'balanced_fat'))),
                     ),
                     FitnessCard(
                       title: "Endurance Builder",
@@ -127,7 +120,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/tabata.png',
                       cardioLevel: 0.4,
                       strengthLevel: 0.7,
-                      onPressed: () => Get.toNamed(AppRoutes.endurance),
+                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'endurance'))),
                     ),
                     FitnessCard(
                       title: "Lean & Tone",
@@ -135,7 +128,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/upperbody.png',
                       cardioLevel: 0.5,
                       strengthLevel: 0.9,
-                      onPressed: () => Get.toNamed(AppRoutes.leanTone),
+                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'lean_tone'))),
                     ),
                   ],
                 ),
@@ -458,4 +451,3 @@ class FitnessCard extends StatelessWidget {
         );
     }
 }
-
