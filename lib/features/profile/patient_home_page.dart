@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:fit_fusion/core/api/ChatListPage.dart';
-import '../doctor/pages/DoctorListPage.dart';
-import 'profile_settings_screen.dart';
+
+import 'package:fit_fusion/features/chat/pages/chat_list_page.dart';
+import '../doctor/pages/doctor_list_page.dart';
 import 'patient_bookings_screen.dart';
 
 class PatientHomePage extends StatefulWidget {
