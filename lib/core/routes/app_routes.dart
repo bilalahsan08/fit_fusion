@@ -20,32 +20,11 @@ class AppRoutes {
   static const String profileScreen = '/profileScreen';
   static const String secondarySplash = '/secondarySplash';
 
-  // Workout Categories & Plans
-  static const String strength = '/strength';
-  static const String cardio = '/cardio';
-  static const String yoga = '/yoga';
-  static const String warmup = '/warmup';
-  static const String superCardio = '/superCardio';
-  static const String weightLose = '/weightLose';
-  static const String balancedFat = '/balancedFat';
-  static const String endurance = '/endurance';
-  static const String leanTone = '/leanTone';
 
-  // Strength Specifics
-  static const String fullBody = '/fullBody';
-  static const String sixPack = '/sixPack';
-  static const String startExercise = '/startExercise';
-  static const String crunches = '/crunches';
-  static const String sidePlankRaises = '/sidePlankRaises';
-  static const String legLifts = '/legLifts';
-  static const String toeTouches = '/toeTouches';
 
   // Utilities & Calcs
   static const String bmiCal = '/bmiCal';
   static const String fatCal = '/fatCal';
 
-  // Diet Meals
-  static const String breakfast1 = '/breakfast1';
-  static const String breakfast2 = '/breakfast2';
-  static const String breakfast3 = '/breakfast3';
+
 }
