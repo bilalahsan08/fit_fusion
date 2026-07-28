@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'DoctorChatlistPage.dart';
-import 'DoctorProfile.dart';
-import 'DoctorRequestsPage.dart';
+import 'doctor_chat_list_page.dart';
+import 'doctor_profile.dart';
+import 'doctor_requests_page.dart';
 
 class DoctorHomePage extends StatefulWidget {
   const DoctorHomePage({super.key});
