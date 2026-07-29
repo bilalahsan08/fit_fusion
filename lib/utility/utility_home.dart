@@ -111,11 +111,11 @@ class _UtilityHomeState extends State<UtilityHome> {
         curve: Curves.easeInOut,
         margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.95),
+          color: Colors.white.withValues(alpha: 0.95),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               spreadRadius: 3,
               offset: Offset(0, 4),
@@ -125,7 +125,7 @@ class _UtilityHomeState extends State<UtilityHome> {
         child: InkWell(
           onTap: onPressed,
           borderRadius: BorderRadius.circular(20),
-          splashColor: Colors.blueAccent.withOpacity(0.2),
+          splashColor: Colors.blueAccent.withValues(alpha: 0.2),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             height: 110,
