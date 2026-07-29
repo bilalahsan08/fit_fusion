@@ -1,290 +1,361 @@
 import 'package:fit_fusion/core/controllers/auth_controller.dart';
-import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_fusion/features/auth/doctor_login.dart';
-import 'package:fit_fusion/features/auth/doctor_splash.dart';
-import 'package:fit_fusion/features/auth/login.dart';
+import 'package:fit_fusion/core/controllers/profile_controller.dart';
 import 'package:fit_fusion/features/profile/edit_profile_screen.dart';
-import 'package:fit_fusion/features/nutrition/doctor.dart';
+import 'package:fit_fusion/features/profile/patient_home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
 
-class ProfilePage extends StatefulWidget {
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  // Logout function with confirmation dialog
-    void logoutUser(BuildContext context) {
-    final authController = Get.put(AuthController());
-    authController.logout();
-  }
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController profileCtrl = Get.put(ProfileController());
+    final AuthController authCtrl = Get.put(AuthController());
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          'Profile',
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+        title: const Text(
+          'My Profile',
+          style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 26,
+            fontSize: 24,
+            color: Colors.black87,
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        children: [
-          sectionTitle('Settings'),
-          const SizedBox(height: 16),
-          buildSettingRow(
-            title: 'Edit Profile',
-            icon: 'assets/images/edit.png',
-            onPressed: () {
-              Get.to(() => ProfileScreen());
-            },
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'Exercise Packs',
-            icon: 'assets/images/packs.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'Food',
-            icon: 'assets/images/food.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'Notification',
-            icon: 'assets/images/alarm.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'Level',
-            icon: 'assets/images/level.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'Fitness Record',
-            icon: 'assets/images/fitness.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 30),
+      body: Obx(() {
+        if (profileCtrl.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          sectionTitle('Instructions'),
-          const SizedBox(height: 16),
-          buildSettingRow(
-            title: 'Exercise List',
-            icon: 'assets/images/list.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 30),
-
-          sectionTitle('We Love Feedback!'),
-          const SizedBox(height: 16),
-          buildSettingRow(
-            title: 'Rate the App',
-            icon: 'assets/images/rate.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'Send Feedback',
-            icon: 'assets/images/feedback.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 30),
-
-          sectionTitle('Follow Us'),
-          const SizedBox(height: 16),
-          buildSettingRow(
-            title: 'Instagram',
-            icon: 'assets/images/instagram.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'Facebook',
-            icon: 'assets/images/facebook.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 10),
-          buildSettingRow(
-            title: 'X',
-            icon: 'assets/images/X.png',
-            onPressed: () {},
-          ),
-          const SizedBox(height: 30),
-
-          // Dual buttons section
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              children: [
-                // Dietitian Mode Button
-                Expanded(
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green[600],
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 3,
-                    ),
-                    onPressed: () {
-                      Get.to(() => SecondarySplashScreen());
-                    },
-                    icon: const Icon(Icons.medical_services, color: Colors.white),
-                    label: const Text(
-                      'Dietitian Mode',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+        return ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          children: [
+            // User Header Banner Card
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.blueAccent, Colors.lightBlueAccent],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueAccent.withValues(alpha: 0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 36,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      profileCtrl.role.value == 'Dietitian'
+                          ? Icons.medical_services_rounded
+                          : Icons.person_rounded,
+                      size: 40,
+                      color: Colors.blueAccent,
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-
-                // Log Out Button
-                Expanded(
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red[600],
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 3,
-                    ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Confirm Logout'),
-                            content: const Text('Are you sure you want to log out?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Get.back(); // Close dialog
-                                },
-                                child: const Text('Cancel'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Get.back(); // Close dialog first
-                                  logoutUser(context); // Then perform logout
-                                },
-                                child: const Text('Logout'),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.red,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-
-                    icon: const Icon(Icons.logout, color: Colors.white),
-                    label: const Text(
-                      'Log Out',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          profileCtrl.name.value,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          profileCtrl.email.value,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white.withValues(alpha: 0.9),
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.25),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            profileCtrl.role.value.toUpperCase(),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+            const SizedBox(height: 20),
+
+            // Live Health Metrics Bar (Weight, Height, BMI)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildMetricStat(
+                    label: 'Weight',
+                    value: '${profileCtrl.weightKg.value.toStringAsFixed(1)} kg',
+                    icon: Icons.monitor_weight_outlined,
+                  ),
+                  Container(height: 35, width: 1, color: Colors.grey[200]),
+                  _buildMetricStat(
+                    label: 'Height',
+                    value: '${profileCtrl.heightCm.value.round()} cm',
+                    icon: Icons.height_rounded,
+                  ),
+                  Container(height: 35, width: 1, color: Colors.grey[200]),
+                  _buildMetricStat(
+                    label: 'BMI',
+                    value: profileCtrl.bmi.toStringAsFixed(1),
+                    subtitle: profileCtrl.bmiCategory,
+                    icon: Icons.speed_rounded,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Account Settings Section
+            _buildSectionHeader('Account Settings'),
+            const SizedBox(height: 10),
+            _buildSettingCard(
+              title: 'Edit Profile & Fitness Goals',
+              subtitle: 'Update height, weight, and target goal',
+              icon: Icons.edit_note_rounded,
+              onTap: () => Get.to(() => const ProfileScreen()),
+            ),
+            const SizedBox(height: 10),
+            _buildSettingCard(
+              title: 'My Dietitian Appointments',
+              subtitle: 'View booked appointments and consultations',
+              icon: Icons.calendar_month_rounded,
+              onTap: () => Get.to(() => PatientHomePage()),
+            ),
+            const SizedBox(height: 24),
+ 
+            // Preferences & Support
+            _buildSectionHeader('Preferences & Support'),
+            const SizedBox(height: 10),
+            _buildSettingCard(
+              title: 'Notifications & Reminders',
+              subtitle: 'Daily workout and hydration alerts',
+              icon: Icons.notifications_active_outlined,
+              onTap: () {
+                Get.snackbar(
+                  'Notifications',
+                  'Daily reminder alerts are active',
+                  snackPosition: SnackPosition.BOTTOM,
+                );
+              },
+            ),
+            const SizedBox(height: 10),
+            _buildSettingCard(
+              title: 'Rate & Feedback',
+              subtitle: 'Help us improve FitFusion',
+              icon: Icons.star_rate_rounded,
+              onTap: () => _showFeedbackDialog(context),
+            ),
+            const SizedBox(height: 28),
+
+            // Sign Out Button
+            SizedBox(
+              height: 52,
+              child: ElevatedButton.icon(
+                onPressed: () => _showLogoutConfirmation(context, authCtrl),
+                icon: const Icon(Icons.logout_rounded, color: Colors.redAccent),
+                label: const Text(
+                  'Log Out',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.redAccent,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent.withValues(alpha: 0.1),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget _buildMetricStat({
+    required String label,
+    required String value,
+    String? subtitle,
+    required IconData icon,
+  }) {
+    return Column(
+      children: [
+        Icon(icon, color: Colors.blueAccent, size: 22),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
           ),
-          const SizedBox(height: 20),
+        ),
+        Text(
+          subtitle ?? label,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[600],
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        color: Colors.grey[700],
+        letterSpacing: 0.5,
+      ),
+    );
+  }
+
+  Widget _buildSettingCard({
+    required String title,
+    required String subtitle,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: ListTile(
+        onTap: onTap,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        leading: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.blueAccent.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: Colors.blueAccent, size: 22),
+        ),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Colors.grey),
+      ),
+    );
+  }
+
+  void _showLogoutConfirmation(BuildContext context, AuthController authCtrl) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('Log Out'),
+        content: const Text('Are you sure you want to log out of FitFusion?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              authCtrl.logout();
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            child: const Text('Log Out', style: TextStyle(color: Colors.white)),
+          ),
         ],
       ),
     );
   }
 
-  // Helper widget for section titles
-  Widget sectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        color: Colors.black87,
-      ),
-    );
-  }
-
-  // Helper widget for settings rows
-  Widget buildSettingRow({
-    required String title,
-    required String icon,
-    required VoidCallback onPressed,
-    bool isLogout = false,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(15),
-        onTap: onPressed,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-            BoxShadow(
-            color: Colors.black12,
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-            ),
-            ],
+  void _showFeedbackDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('App Feedback'),
+        content: const Text('Thank you for using FitFusion! Rate your experience.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Get.snackbar(
+                'Thank You!',
+                'Your feedback was received',
+                snackPosition: SnackPosition.BOTTOM,
+              );
+            },
+            child: const Text('Submit'),
           ),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  icon,
-                  width: 26,
-                  height: 26,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: isLogout ? Colors.redAccent : Colors.black,
-                  ),
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 18,
-                color: Colors.grey,
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
