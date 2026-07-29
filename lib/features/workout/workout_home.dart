@@ -5,6 +5,17 @@ import 'package:get/get.dart';
 import 'package:fit_fusion/features/chat/ai_chat_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'package:fit_fusion/features/workout/legacy/strength/strength.dart';
+import 'package:fit_fusion/features/workout/legacy/cardio/cardio.dart';
+import 'package:fit_fusion/features/workout/legacy/yoga/yoga.dart';
+import 'package:fit_fusion/features/workout/legacy/warmup/warmup.dart';
+import 'package:fit_fusion/features/workout/legacy/lose_fat/supercardio.dart';
+import 'package:fit_fusion/features/workout/legacy/lose_fat/weight_lose.dart';
+import 'package:fit_fusion/features/workout/legacy/lose_fat/balancedfat.dart';
+import 'package:fit_fusion/features/workout/legacy/lose_fat/endurance.dart';
+import 'package:fit_fusion/features/workout/legacy/lose_fat/leantone.dart';
+import 'package:fit_fusion/features/workout/custom_workout_screen.dart';
+
 class WorkoutHome extends StatefulWidget {
   @override
   State<WorkoutHome> createState() => _WorkoutHomeState();
@@ -61,29 +72,29 @@ class _WorkoutHomeState extends State<WorkoutHome> {
               WorkoutCategoryCard(
                 title: 'Strength',
                 image: 'assets/images/strength.png',
-                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'strength'))),
+                onPressed: () => Get.to(() => Strength()),
               ),
               WorkoutCategoryCard(
                 title: 'HIIT, Cardio',
                 image: 'assets/images/cardio.png',
-                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'cardio'))),
+                onPressed: () => Get.to(() => Cardio()),
               ),
               WorkoutCategoryCard(
                 title: 'Yoga, Stretching',
                 image: 'assets/images/legrolling.png',
-                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'yoga'))),
+                onPressed: () => Get.to(() => Yoga()),
               ),
               WorkoutCategoryCard(
                 title: 'Warmup, Recovery',
                 image: 'assets/images/warmup.png',
-                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'warmup'))),
+                onPressed: () => Get.to(() => Warmup()),
               ),
               const SizedBox(height: 20),
               WorkoutPlanCard(
                 title: 'Super Cardio Burner',
                 imagePath: 'assets/images/up.png',
                 duration: '10 Weeks',
-                onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'super_cardio'))),
+                onPressed: () => Get.to(() => Supercardio()),
               ),
               const SizedBox(height: 20),
               CustomWorkoutCard(),
@@ -104,7 +115,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/powerjump.png',
                       cardioLevel: 0.8,
                       strengthLevel: 0.4,
-                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'weight_loss'))),
+                      onPressed: () => Get.to(() => WeightLose()),
                     ),
                     FitnessCard(
                       title: "Balanced Fat",
@@ -112,7 +123,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/complexcore.png',
                       cardioLevel: 0.6,
                       strengthLevel: 0.4,
-                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'balanced_fat'))),
+                      onPressed: () => Get.to(() => Balancedfat()),
                     ),
                     FitnessCard(
                       title: "Endurance Builder",
@@ -120,7 +131,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/tabata.png',
                       cardioLevel: 0.4,
                       strengthLevel: 0.7,
-                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'endurance'))),
+                      onPressed: () => Get.to(() => Endurance()),
                     ),
                     FitnessCard(
                       title: "Lean & Tone",
@@ -128,7 +139,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/upperbody.png',
                       cardioLevel: 0.5,
                       strengthLevel: 0.9,
-                      onPressed: () => Get.to(() => WorkoutProgramScreen(workout: AppData.workouts.firstWhere((w) => w.id == 'lean_tone'))),
+                      onPressed: () => Get.to(() => leantone()),
                     ),
                   ],
                 ),
@@ -180,7 +191,7 @@ class WorkoutCategoryCard extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         borderRadius: BorderRadius.circular(15),
-        splashColor: Colors.grey.withOpacity(0.2),
+        splashColor: Colors.grey.withValues(alpha: 0.2),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
           child: Row(
@@ -218,9 +229,9 @@ class CustomWorkoutCard extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
-        onTap: () {},
+        onTap: () => Get.to(() => const CustomWorkoutScreen()),
         borderRadius: BorderRadius.circular(15),
-        splashColor: Colors.grey.withOpacity(0.2),
+        splashColor: Colors.blueAccent.withValues(alpha: 0.2),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: Column(
@@ -232,11 +243,11 @@ class CustomWorkoutCard extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               const Text(
-                'Create your own with our workout builder!',
+                'Create your own routines with our workout builder!',
                 style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
               const SizedBox(height: 10),
-              Align(
+              const Align(
                 alignment: Alignment.centerRight,
                 child: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
               ),

@@ -1,14 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:fit_fusion/core/models/workout.dart';
 
-class WorkoutProgramScreen extends StatelessWidget {
-  final Workout workout;
+class WeightLose extends StatefulWidget{
+  @override
+  State<WeightLose> createState() => _WeightLoseState();
+}
 
-  const WorkoutProgramScreen({Key? key, required this.workout}) : super(key: key);
-
+class _WeightLoseState extends State<WeightLose> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,15 +23,10 @@ class WorkoutProgramScreen extends StatelessWidget {
                     bottomRight: Radius.circular(24),
                   ),
                   child: Image.asset(
-                    workout.imagePath,
+                    'assets/images/powerjump.png',
                     fit: BoxFit.cover,
                     height: 250,
                     width: double.infinity,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      height: 250,
-                      color: Colors.grey,
-                      child: const Center(child: Icon(Icons.image_not_supported)),
-                    ),
                   ),
                 ),
                 Positioned.fill(
@@ -47,7 +41,7 @@ class WorkoutProgramScreen extends StatelessWidget {
                   bottom: 20,
                   left: 20,
                   child: Text(
-                    workout.title,
+                    "Weight Loss Plan",
                     style: GoogleFonts.poppins(
                       fontSize: 34,
                       fontWeight: FontWeight.bold,
@@ -68,7 +62,7 @@ class WorkoutProgramScreen extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                     onPressed: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                   ),
                 ),
@@ -80,32 +74,27 @@ class WorkoutProgramScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Overview",
+                    "5-Week Weight Loss Challenge",
                     style: GoogleFonts.poppins(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Text(
-                    workout.description,
+                    "This plan combines cardio, strength training, and daily habits to help you lose weight effectively and sustainably.",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      color: Colors.grey[800],
-                      height: 1.5,
+                      color: Colors.grey[700],
                     ),
                   ),
                   const SizedBox(height: 24),
-                  if (workout.weeklyGoals.isNotEmpty)
-                    Text(
-                      "Weekly Plan",
-                      style: GoogleFonts.poppins(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  const SizedBox(height: 10),
-                  ...workout.weeklyGoals.entries.map((entry) => _buildWeekCard(entry.key, entry.value)).toList(),
+                  _buildWeekCard(1, ["20-min Walk", "15-min HIIT", "Track Calories"]),
+                  _buildWeekCard(2, ["30-min Cardio", "10-min Core", "Drink 2L Water"]),
+                  _buildWeekCard(3, ["Strength Upper", "Cardio Dance", "Avoid Sugar"]),
+                  _buildWeekCard(4, ["Full Body Circuit", "Yoga", "Sleep 8h"]),
+                  _buildWeekCard(5, ["Final HIIT Test", "Stretch", "Track Progress"]),
+
                 ],
               ),
             ),
@@ -114,52 +103,51 @@ class WorkoutProgramScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildWeekCard(int week, List<String> goals) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x1A000000),
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Week $week",
-            style: GoogleFonts.poppins(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 10),
-          ...goals.map(
-                (goal) => Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Row(
-                children: [
-                  const Icon(Icons.check_circle, color: Colors.green, size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      goal,
-                      style: GoogleFonts.poppins(fontSize: 16),
-                    ),
-                  ),
-                ],
+  }
+    Widget _buildWeekCard(int week, List<String> goals) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x1A000000),
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            )
+          ],
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Week $week",
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+            const SizedBox(height: 10),
+            ...goals.map(
+                  (goal) => Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.check_circle, color: Colors.green, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        goal,
+                        style: GoogleFonts.poppins(fontSize: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
