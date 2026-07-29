@@ -23,10 +23,13 @@ class _SplashWrapperState extends State<SplashWrapper> {
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkLoginStatus();
+    });
   }
 
   Future<void> _checkLoginStatus() async {
+    await Future.delayed(const Duration(milliseconds: 500));
     User? user = _auth.currentUser;
 
     if (user != null) {
