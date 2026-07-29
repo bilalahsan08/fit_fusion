@@ -1,7 +1,9 @@
 import 'package:fit_fusion/core/routes/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:fit_fusion/core/data/app_data.dart';
-import 'package:fit_fusion/features/nutrition/pages/meal_detail_screen.dart';
+import 'package:fit_fusion/features/nutrition/legacy/breakfast1.dart';
+import 'package:fit_fusion/features/nutrition/legacy/breakfast2.dart';
+import 'package:fit_fusion/features/nutrition/legacy/breakfast3.dart';
 import 'package:flutter/material.dart';
 
 class Dietplan extends StatelessWidget {
@@ -54,21 +56,21 @@ class Dietplan extends StatelessWidget {
                     imagePath: AppData.meals[0].imagePath,
                     duration: '15 min',
                     kcal: AppData.meals[0].calories,
-                    onPressed: () => Get.to(() => MealDetailScreen(meal: AppData.meals[0])),
+                    onPressed: () => Get.to(() => breakfast1()),
                   ),
                   DietCard(
                     title: AppData.meals[1].title,
                     imagePath: AppData.meals[1].imagePath,
                     duration: '15 min',
                     kcal: AppData.meals[1].calories,
-                    onPressed: () => Get.to(() => MealDetailScreen(meal: AppData.meals[1])),
+                    onPressed: () => Get.to(() => breakfast2()),
                   ),
                   DietCard(
                     title: AppData.meals[2].title,
                     imagePath: AppData.meals[2].imagePath,
                     duration: '15 min',
                     kcal: AppData.meals[2].calories,
-                    onPressed: () => Get.to(() => MealDetailScreen(meal: AppData.meals[2])),
+                    onPressed: () => Get.to(() => breakfast3()),
                   ),
                 ],
               ),

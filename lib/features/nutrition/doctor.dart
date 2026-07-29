@@ -53,7 +53,7 @@ class _DoctorState extends State<Doctor> {
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: Colors.grey.withValues(alpha: 0.2),
                   blurRadius: 10,
                   offset: const Offset(0, 6),
                 ),
@@ -98,7 +98,7 @@ class _DoctorState extends State<Doctor> {
                     labelStyle: GoogleFonts.poppins(fontSize: 16, color: Colors.teal),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.teal.withOpacity(0.5), width: 1.5),
+                      borderSide: BorderSide(color: Colors.teal.withValues(alpha: 0.5), width: 1.5),
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
@@ -128,7 +128,7 @@ class _DoctorState extends State<Doctor> {
                   ),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.teal, backgroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14),
-                    side: BorderSide(color: Colors.teal.withOpacity(0.5), width: 1.5),
+                    side: BorderSide(color: Colors.teal.withValues(alpha: 0.5), width: 1.5),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                 ),
@@ -168,7 +168,7 @@ class _DoctorState extends State<Doctor> {
                   ),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.teal, backgroundColor: Colors.white, padding: const EdgeInsets.symmetric(vertical: 14),
-                    side: BorderSide(color: Colors.teal.withOpacity(0.5), width: 1.5),
+                    side: BorderSide(color: Colors.teal.withValues(alpha: 0.5), width: 1.5),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                   ),
                 ),
@@ -184,7 +184,7 @@ class _DoctorState extends State<Doctor> {
                     labelStyle: GoogleFonts.poppins(fontSize: 16, color: Colors.teal),
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.teal.withOpacity(0.5), width: 1.5),
+                      borderSide: BorderSide(color: Colors.teal.withValues(alpha: 0.5), width: 1.5),
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),

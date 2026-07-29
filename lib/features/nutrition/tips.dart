@@ -74,11 +74,11 @@ class Tips extends StatelessWidget{
         margin: EdgeInsets.symmetric(vertical: 10),
         padding: EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.9),
+          color: Colors.white.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 12,
               offset: Offset(0, 6),
             ),
@@ -108,7 +108,7 @@ class Tips extends StatelessWidget{
               description,
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withValues(alpha: 0.7),
                 height: 1.5,
               ),
             ),

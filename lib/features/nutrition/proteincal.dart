@@ -101,7 +101,7 @@ class _proteincalState extends State<proteincal> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   elevation: 5,
-                  shadowColor: Colors.black.withOpacity(0.1),
+                  shadowColor: Colors.black.withValues(alpha: 0.1),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -140,7 +140,7 @@ class _proteincalState extends State<proteincal> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   elevation: 5,
-                  shadowColor: Colors.black.withOpacity(0.1),
+                  shadowColor: Colors.black.withValues(alpha: 0.1),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -215,7 +215,7 @@ class _proteincalState extends State<proteincal> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     elevation: 5,
-                    shadowColor: Colors.black.withOpacity(0.1),
+                    shadowColor: Colors.black.withValues(alpha: 0.1),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
