@@ -224,35 +224,135 @@ class CustomWorkoutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: InkWell(
-        onTap: () => Get.to(() => const CustomWorkoutScreen()),
-        borderRadius: BorderRadius.circular(15),
-        splashColor: Colors.blueAccent.withValues(alpha: 0.2),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Custom Workouts',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
-              const SizedBox(height: 5),
-              const Text(
-                'Create your own routines with our workout builder!',
-                style: TextStyle(fontSize: 14, color: Colors.black54),
-              ),
-              const SizedBox(height: 10),
-              const Align(
-                alignment: Alignment.centerRight,
-                child: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
-              ),
-            ],
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.indigo.shade800, Colors.blue.shade700],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.blueAccent.withValues(alpha: 0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => Get.to(() => const CustomWorkoutScreen()),
+          borderRadius: BorderRadius.circular(24),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: const Icon(
+                        Icons.tune_rounded,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Text(
+                        '⚡ PRO BUILDER',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.amberAccent,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Custom Workout Builder',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Design personalized routines with custom exercise selections & timers.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.white.withValues(alpha: 0.9),
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        _buildBadge('🎯 Custom Targets'),
+                        const SizedBox(width: 8),
+                        _buildBadge('⏱️ Timers'),
+                      ],
+                    ),
+                    Row(
+                      children: const [
+                        Text(
+                          'Build Now',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                        SizedBox(width: 4),
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBadge(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ),
     );
@@ -275,80 +375,142 @@ class WorkoutPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(20),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Stack(
-          children: [
-            SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: Image.asset(
-                imagePath,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Positioned(
-              top: 16,
-              left: 16,
-              right: 16,
-              child: Row(
-                children: [
-                  _tagLabel('Your Personal Plan', Colors.limeAccent),
-                  const SizedBox(width: 8),
-                  _tagLabel(duration, Colors.white70),
-                ],
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                width: MediaQuery.of(context).size.width - 30,
-                padding: const EdgeInsets.all(20),
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        borderRadius: BorderRadius.circular(24),
+        child: Material(
+          color: Colors.white,
+          child: InkWell(
+            onTap: onPressed,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(
+                      height: 180,
+                      width: double.infinity,
+                      child: Image.asset(
+                        imagePath,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        _iconWithText(Icons.signal_cellular_alt, 'Cardio', Colors.green),
-                        const SizedBox(width: 20),
-                        _iconWithText(Icons.signal_cellular_alt, 'Strength', Colors.green),
-                      ],
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.black.withValues(alpha: 0.2),
+                              Colors.black.withValues(alpha: 0.7),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 16,
+                      left: 16,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          '🔥 HIGH BURN',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 16,
+                      left: 16,
+                      child: Row(
+                        children: [
+                          const Icon(Icons.calendar_today_rounded, size: 16, color: Colors.white),
+                          const SizedBox(width: 6),
+                          Text(
+                            duration,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      const Text(
+                        '10-Week structured fat burn & endurance plan with daily progress tracking.',
+                        style: TextStyle(fontSize: 13, color: Colors.black54, height: 1.3),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              _iconWithText(Icons.directions_run_rounded, 'Cardio', Colors.orangeAccent.shade700),
+                              const SizedBox(width: 16),
+                              _iconWithText(Icons.fitness_center_rounded, 'Strength', Colors.deepPurpleAccent),
+                            ],
+                          ),
+                          ElevatedButton(
+                            onPressed: onPressed,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orangeAccent.shade700,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            ),
+                            child: const Text('Start Program', style: TextStyle(fontWeight: FontWeight.bold)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _tagLabel(String text, Color background) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.black),
-      ),
-    );
-  }
+
 
   Widget _iconWithText(IconData icon, String label, Color color) {
     return Row(
