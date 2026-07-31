@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
 import '../doctor/models/booking.dart';
-import 'package:fit_fusion/features/auth/doctor_login.dart';
 
 class ProfilePagee extends StatefulWidget {
   const ProfilePagee({super.key});

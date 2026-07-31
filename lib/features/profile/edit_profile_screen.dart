@@ -456,7 +456,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(height: 16),
             Column(
               children: goals.map((g) {
-                final isSelected = _selectedGoal == g;
                 return RadioListTile<String>(
                   title: Text(g),
                   value: g,
