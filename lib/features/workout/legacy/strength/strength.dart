@@ -1,5 +1,3 @@
-import 'package:fit_fusion/features/workout/legacy/strength/fullbody.dart';
-import 'package:fit_fusion/features/workout/legacy/strength/sixpack.dart';
 import 'package:fit_fusion/features/workout/legacy/strength/start_exercise.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,139 +11,68 @@ class Strength extends StatefulWidget {
 }
 
 class _StrengthState extends State<Strength> {
-  String _selectedCategory = 'All';
+  int _selectedDuration = 15; // 10, 15, 20, 30 mins
+  String _selectedIntensity = 'Moderate'; // Light, Moderate, Beast Mode
+  bool _includeWarmup = true;
 
-  final List<Map<String, dynamic>> _routines = [
+  final List<Map<String, dynamic>> _studios = [
     {
-      'title': 'Full Body Strength',
-      'category': 'Full Body',
+      'id': 'full_body',
+      'title': 'Full Body Hypertrophy',
+      'subtitle': 'Build overall strength across all major muscle groups',
       'image': 'assets/images/fullbody.png',
-      'duration': '25 mins',
-      'difficulty': 'INTERMEDIATE',
-      'diffColor': Colors.orange,
-      'muscles': ['Full Body', 'Core', 'Legs'],
-      'screen': Fullbody(),
-      'customDrills': null,
+      'muscles': ['Chest', 'Back', 'Quads', 'Core'],
+      'color': Colors.blue.shade800,
+      'drills': [
+        {'title': 'Crunches', 'gif': 'assets/gifs/crunches.gif'},
+        {'title': 'Side Plank Raises', 'gif': 'assets/gifs/sideplank.gif'},
+        {'title': 'Leg Raises', 'gif': 'assets/gifs/LegRaises.gif'},
+        {'title': 'Toe Touches', 'gif': 'assets/gifs/ToeTouches.gif'},
+      ],
     },
     {
-      'title': 'Insane Six Pack',
-      'category': 'Abs & Core',
+      'id': 'core_shred',
+      'title': 'Core & Abs Shred',
+      'subtitle': 'Target upper abs, lower abs, obliques & lower back',
       'image': 'assets/images/sixpack.png',
-      'duration': '15 mins',
-      'difficulty': 'ADVANCED',
-      'diffColor': Colors.redAccent,
-      'muscles': ['Upper Abs', 'Lower Abs', 'Obliques'],
-      'screen': Sixpack(),
-      'customDrills': null,
-    },
-    {
-      'title': 'Complex Core',
-      'category': 'Abs & Core',
-      'image': 'assets/images/complexcore.png',
-      'duration': '18 mins',
-      'difficulty': 'INTERMEDIATE',
-      'diffColor': Colors.orange,
-      'muscles': ['Core Stability', 'Obliques', 'Lower Back'],
-      'screen': null,
-      'customDrills': [
+      'muscles': ['Upper Abs', 'Lower Abs', 'Obliques', 'Lower Back'],
+      'color': Colors.redAccent.shade700,
+      'drills': [
         {'title': 'Crunches', 'gif': 'assets/gifs/crunches.gif'},
+        {'title': 'Leg Raises', 'gif': 'assets/gifs/LegRaises.gif'},
         {'title': 'Side Plank Raises', 'gif': 'assets/gifs/sideplank.gif'},
         {'title': 'Toe Touches', 'gif': 'assets/gifs/ToeTouches.gif'},
       ],
     },
     {
-      'title': 'Strong Back',
-      'category': 'Abs & Core',
-      'image': 'assets/images/strongback.png',
-      'duration': '20 mins',
-      'difficulty': 'INTERMEDIATE',
-      'diffColor': Colors.orange,
-      'muscles': ['Lats', 'Rhomboids', 'Postural Chain'],
-      'screen': null,
-      'customDrills': [
-        {'title': 'Side Plank Raises', 'gif': 'assets/gifs/sideplank.gif'},
-        {'title': 'Toe Touches', 'gif': 'assets/gifs/ToeTouches.gif'},
-        {'title': 'Leg Raises', 'gif': 'assets/gifs/LegRaises.gif'},
-      ],
-    },
-    {
-      'title': 'Complex Lower Body',
-      'category': 'Lower Body',
-      'image': 'assets/images/lowerbody.png',
-      'duration': '22 mins',
-      'difficulty': 'ADVANCED',
-      'diffColor': Colors.redAccent,
-      'muscles': ['Quads', 'Hamstrings', 'Glutes'],
-      'screen': null,
-      'customDrills': [
-        {'title': 'Leg Raises', 'gif': 'assets/gifs/LegRaises.gif'},
-        {'title': 'Toe Touches', 'gif': 'assets/gifs/ToeTouches.gif'},
-      ],
-    },
-    {
-      'title': 'Explosive Power Jumps',
-      'category': 'Lower Body',
-      'image': 'assets/images/powerjump.png',
-      'duration': '15 mins',
-      'difficulty': 'BEGINNER',
-      'diffColor': Colors.green,
-      'muscles': ['Calves', 'Plyometrics', 'Explosiveness'],
-      'screen': null,
-      'customDrills': [
-        {'title': 'Toe Touches', 'gif': 'assets/gifs/ToeTouches.gif'},
-        {'title': 'Crunches', 'gif': 'assets/gifs/crunches.gif'},
-      ],
-    },
-    {
-      'title': 'Complex Upper Body',
-      'category': 'Upper Body',
+      'id': 'sculpt_split',
+      'title': 'Sculpt Split',
+      'subtitle': 'Upper body & lower body power circuits',
       'image': 'assets/images/upperbody.png',
-      'duration': '20 mins',
-      'difficulty': 'INTERMEDIATE',
-      'diffColor': Colors.orange,
-      'muscles': ['Shoulders', 'Chest', 'Biceps'],
-      'screen': null,
-      'customDrills': [
-        {'title': 'Crunches', 'gif': 'assets/gifs/crunches.gif'},
-        {'title': 'Side Plank Raises', 'gif': 'assets/gifs/sideplank.gif'},
-      ],
-    },
-    {
-      'title': 'Chest & Arms Sculpt',
-      'category': 'Upper Body',
-      'image': 'assets/images/chestarm.png',
-      'duration': '25 mins',
-      'difficulty': 'ADVANCED',
-      'diffColor': Colors.redAccent,
-      'muscles': ['Pectorals', 'Triceps', 'Forearms'],
-      'screen': null,
-      'customDrills': [
+      'muscles': ['Pectorals', 'Triceps', 'Glutes', 'Hamstrings'],
+      'color': Colors.indigo.shade800,
+      'drills': [
         {'title': 'Side Plank Raises', 'gif': 'assets/gifs/sideplank.gif'},
         {'title': 'Toe Touches', 'gif': 'assets/gifs/ToeTouches.gif'},
+        {'title': 'Crunches', 'gif': 'assets/gifs/crunches.gif'},
       ],
     },
   ];
 
-  List<Map<String, dynamic>> get _filteredRoutines {
-    if (_selectedCategory == 'All') return _routines;
-    return _routines.where((r) => r['category'] == _selectedCategory).toList();
-  }
+  void _startStudioWorkout(Map<String, dynamic> studio) {
+    List<Map<String, String>> drills = List<Map<String, String>>.from(studio['drills'] as List);
 
-  void _launchRoutine(Map<String, dynamic> routine) {
-    if (routine['screen'] != null) {
-      Get.to(() => routine['screen'] as Widget);
-    } else if (routine['customDrills'] != null) {
-      Get.to(() => StartExercise(
-            customExercises: List<Map<String, String>>.from(
-              routine['customDrills'] as List,
-            ),
-          ));
+    if (_includeWarmup) {
+      drills.insert(0, {'title': '3-min Warmup Stretch', 'gif': 'assets/gifs/ToeTouches.gif'});
     }
+
+    Get.to(() => StartExercise(customExercises: drills));
   }
 
   @override
   Widget build(BuildContext context) {
-    final categories = ['All', 'Full Body', 'Abs & Core', 'Lower Body', 'Upper Body'];
+    final durationOptions = [10, 15, 20, 30];
+    final intensityOptions = ['Light', 'Moderate', 'Beast Mode'];
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -162,7 +89,7 @@ class _StrengthState extends State<Strength> {
             ),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                'Strength Programs',
+                'Strength Studio',
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -172,10 +99,7 @@ class _StrengthState extends State<Strength> {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    'assets/images/strength.png',
-                    fit: BoxFit.cover,
-                  ),
+                  Image.asset('assets/images/strength.png', fit: BoxFit.cover),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -202,21 +126,14 @@ class _StrengthState extends State<Strength> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Text(
-                            '💪 8 STRENGTH ROUTINES',
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
+                            '🏋️ 3 CORE STUDIOS',
+                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
                           ),
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Target Muscle Groups & Build Power',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.white.withValues(alpha: 0.9),
-                          ),
+                          'Interactive Customizer & Workouts',
+                          style: GoogleFonts.poppins(fontSize: 14, color: Colors.white.withValues(alpha: 0.9)),
                         ),
                       ],
                     ),
@@ -226,151 +143,241 @@ class _StrengthState extends State<Strength> {
             ),
           ),
 
-          // Main Content
+          // Interactive Control Panel
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Filter Chips
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: categories.map((cat) {
-                        final isSelected = _selectedCategory == cat;
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: ChoiceChip(
-                            label: Text(
-                              cat,
-                              style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.black87,
-                                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                              ),
-                            ),
-                            selected: isSelected,
-                            selectedColor: Colors.blue.shade800,
-                            backgroundColor: Colors.white,
-                            elevation: isSelected ? 2 : 0,
-                            onSelected: (_) {
-                              setState(() => _selectedCategory = cat);
-                            },
-                          ),
-                        );
-                      }).toList(),
+                  // Control Panel Card
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.04),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Routine Cards
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _filteredRoutines.length,
-                    itemBuilder: (context, index) {
-                      final r = _filteredRoutines[index];
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 14),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.04),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.tune_rounded, color: Colors.blue.shade800, size: 20),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Studio Control Panel',
+                              style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(20),
-                          onTap: () => _launchRoutine(r),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.asset(
-                                    r['image'] as String,
-                                    height: 85,
-                                    width: 85,
-                                    fit: BoxFit.cover,
-                                  ),
+                        const SizedBox(height: 14),
+
+                        // Duration Selector
+                        Text('Target Duration:', style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey[700], fontWeight: FontWeight.w600)),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: durationOptions.map((dur) {
+                            final isSelected = _selectedDuration == dur;
+                            return ChoiceChip(
+                              label: Text('${dur}m', style: TextStyle(color: isSelected ? Colors.white : Colors.black87, fontWeight: FontWeight.bold, fontSize: 12)),
+                              selected: isSelected,
+                              selectedColor: Colors.blue.shade800,
+                              backgroundColor: Colors.grey[100],
+                              onSelected: (_) => setState(() => _selectedDuration = dur),
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(height: 14),
+
+                        // Intensity Selector
+                        Text('Intensity Level:', style: GoogleFonts.poppins(fontSize: 13, color: Colors.grey[700], fontWeight: FontWeight.w600)),
+                        const SizedBox(height: 8),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: intensityOptions.map((mode) {
+                              final isSelected = _selectedIntensity == mode;
+                              String iconStr = '🌱 ';
+                              if (mode == 'Moderate') iconStr = '⚡ ';
+                              if (mode == 'Beast Mode') iconStr = '🔥 ';
+
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: ChoiceChip(
+                                  label: Text('$iconStr$mode', style: TextStyle(color: isSelected ? Colors.white : Colors.black87, fontWeight: FontWeight.bold, fontSize: 12)),
+                                  selected: isSelected,
+                                  selectedColor: mode == 'Beast Mode' ? Colors.redAccent.shade700 : Colors.blue.shade800,
+                                  backgroundColor: Colors.grey[100],
+                                  onSelected: (_) => setState(() => _selectedIntensity = mode),
                                 ),
-                                const SizedBox(width: 14),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        const Divider(),
+
+                        // Warmup Toggle
+                        SwitchListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Text('Include 3-min Warmup Stretch', style: GoogleFonts.poppins(fontSize: 13, fontWeight: FontWeight.w600)),
+                          subtitle: Text('Prepend dynamic joint warmups before starting', style: TextStyle(fontSize: 11, color: Colors.grey[600])),
+                          value: _includeWarmup,
+                          activeThumbColor: Colors.blue.shade800,
+                          onChanged: (val) => setState(() => _includeWarmup = val),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Studios Section Title
+                  Text(
+                    'Choose Your Studio Session',
+                    style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // 3 Studio Cards
+                  ..._studios.map((studio) {
+                    final color = studio['color'] as Color;
+
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: Material(
+                          color: Colors.white,
+                          child: InkWell(
+                            onTap: () => _startStudioWorkout(studio),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     children: [
-                                      Text(
-                                        r['title'] as String,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.asset(
+                                          studio['image'] as String,
+                                          height: 80,
+                                          width: 80,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
-                                      Row(
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                            decoration: BoxDecoration(
-                                              color: (r['diffColor'] as Color).withValues(alpha: 0.15),
-                                              borderRadius: BorderRadius.circular(6),
+                                      const SizedBox(width: 14),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              studio['title'] as String,
+                                              style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.bold),
                                             ),
-                                            child: Text(
-                                              r['difficulty'] as String,
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                                color: r['diffColor'] as Color,
-                                              ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              studio['subtitle'] as String,
+                                              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                                             ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Icon(Icons.timer_outlined, size: 13, color: Colors.grey[600]),
-                                          const SizedBox(width: 3),
-                                          Text(
-                                            r['duration'] as String,
-                                            style: TextStyle(fontSize: 11, color: Colors.grey[700]),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 6),
-                                      Wrap(
-                                        spacing: 4,
-                                        children: (r['muscles'] as List<String>).map((m) {
-                                          return Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                            decoration: BoxDecoration(
-                                              color: Colors.grey[100],
-                                              borderRadius: BorderRadius.circular(6),
+                                            const SizedBox(height: 8),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                                  decoration: BoxDecoration(
+                                                    color: color.withValues(alpha: 0.1),
+                                                    borderRadius: BorderRadius.circular(8),
+                                                  ),
+                                                  child: Text(
+                                                    '⏱️ $_selectedDuration mins',
+                                                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: color),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 8),
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.orange.withValues(alpha: 0.1),
+                                                    borderRadius: BorderRadius.circular(8),
+                                                  ),
+                                                  child: Text(
+                                                    '⚡ $_selectedIntensity',
+                                                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.orange),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            child: Text(
-                                              m,
-                                              style: const TextStyle(fontSize: 9, color: Colors.black54),
-                                            ),
-                                          );
-                                        }).toList(),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                Icon(
-                                  Icons.play_circle_fill_rounded,
-                                  color: Colors.blue.shade800,
-                                  size: 36,
-                                ),
-                              ],
+                                  const SizedBox(height: 12),
+                                  const Divider(),
+                                  const SizedBox(height: 6),
+
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Wrap(
+                                          spacing: 6,
+                                          children: (studio['muscles'] as List<String>).map((m) {
+                                            return Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[100],
+                                                borderRadius: BorderRadius.circular(6),
+                                              ),
+                                              child: Text(
+                                                m,
+                                                style: TextStyle(fontSize: 10, color: Colors.grey.shade800, fontWeight: FontWeight.w500),
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                      ElevatedButton.icon(
+                                        onPressed: () => _startStudioWorkout(studio),
+                                        icon: const Icon(Icons.play_arrow_rounded, size: 18),
+                                        label: const Text('START'),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: color,
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),
