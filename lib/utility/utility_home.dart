@@ -1,7 +1,5 @@
 import 'package:fit_fusion/core/routes/app_routes.dart';
 import 'package:get/get.dart';
-import 'package:fit_fusion/utility/bmi_cal.dart';
-import 'package:fit_fusion/utility/fat_cal.dart';
 import 'package:flutter/material.dart';
 
 class UtilityHomePage extends StatelessWidget{
