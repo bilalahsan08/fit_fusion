@@ -1,10 +1,8 @@
-import 'package:fit_fusion/core/routes/app_routes.dart';
-import 'package:fit_fusion/core/data/app_data.dart';
-import 'package:fit_fusion/features/workout/pages/workout_program_screen.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 import 'package:fit_fusion/features/chat/ai_chat_screen.dart';
 import 'package:flutter/material.dart';
-
 import 'package:fit_fusion/features/workout/legacy/strength/strength.dart';
 import 'package:fit_fusion/features/workout/legacy/cardio/cardio.dart';
 import 'package:fit_fusion/features/workout/legacy/yoga/yoga.dart';
@@ -39,22 +37,11 @@ class _WorkoutHomeState extends State<WorkoutHome> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Workouts',
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey[200],
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.list, color: Colors.black),
-                      onPressed: () {},
                     ),
                   ),
                 ],
@@ -105,7 +92,7 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                 style: TextStyle(fontSize: 17,color: Colors.grey),),
               const SizedBox(height: 20),
               SizedBox(
-                height: 350,
+                height: 295,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
@@ -115,7 +102,8 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/powerjump.png',
                       cardioLevel: 0.8,
                       strengthLevel: 0.4,
-                      onPressed: () => Get.to(() => WeightLose()),
+                      storageKey: 'weight_loss_progress',
+                      onPressed: () => Get.to(() => const WeightLose())?.then((_) => setState(() {})),
                     ),
                     FitnessCard(
                       title: "Balanced Fat",
@@ -123,7 +111,8 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/complexcore.png',
                       cardioLevel: 0.6,
                       strengthLevel: 0.4,
-                      onPressed: () => Get.to(() => Balancedfat()),
+                      storageKey: 'balanced_fat_progress',
+                      onPressed: () => Get.to(() => const Balancedfat())?.then((_) => setState(() {})),
                     ),
                     FitnessCard(
                       title: "Endurance Builder",
@@ -131,7 +120,8 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/tabata.png',
                       cardioLevel: 0.4,
                       strengthLevel: 0.7,
-                      onPressed: () => Get.to(() => Endurance()),
+                      storageKey: 'endurance_progress',
+                      onPressed: () => Get.to(() => const Endurance())?.then((_) => setState(() {})),
                     ),
                     FitnessCard(
                       title: "Lean & Tone",
@@ -139,7 +129,8 @@ class _WorkoutHomeState extends State<WorkoutHome> {
                       imagePath: 'assets/images/upperbody.png',
                       cardioLevel: 0.5,
                       strengthLevel: 0.9,
-                      onPressed: () => Get.to(() => leantone()),
+                      storageKey: 'lean_tone_progress',
+                      onPressed: () => Get.to(() => const leantone())?.then((_) => setState(() {})),
                     ),
                   ],
                 ),
@@ -527,100 +518,291 @@ class WorkoutPlanCard extends StatelessWidget {
 }
 
 
-class FitnessCard extends StatelessWidget {
+class FitnessCard extends StatefulWidget {
   final String title;
   final String duration;
   final String imagePath;
   final double cardioLevel;
   final double strengthLevel;
+  final String storageKey;
   final VoidCallback onPressed;
 
   const FitnessCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.duration,
     required this.imagePath,
     required this.cardioLevel,
     required this.strengthLevel,
+    required this.storageKey,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
-  Widget _buildProgressIndicator(double level, Color color) {
-    return Row(
-      children: [
-        Icon(Icons.fiber_manual_record, color: color, size: 10),
-        SizedBox(width: 4),
-        Expanded(
-          child: LinearProgressIndicator(
-            value: level,
-            backgroundColor: Colors.grey.shade300,
-            valueColor: AlwaysStoppedAnimation<Color>(color),
-            minHeight: 4,
-            borderRadius: BorderRadius.circular(5),
-          ),
-        ),
-      ],
-    );
+  @override
+  State<FitnessCard> createState() => _FitnessCardState();
+}
+
+class _FitnessCardState extends State<FitnessCard> {
+  int _completedCount = 0;
+
+  int get _planTotalTasks {
+    if (widget.title.contains('Endurance')) return 18; // 6 weeks * 3
+    return 15; // 5 weeks * 3
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadProgress();
+  }
+
+  @override
+  void didUpdateWidget(covariant FitnessCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _loadProgress();
+  }
+
+  Future<void> _loadProgress() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String? jsonStr = prefs.getString(widget.storageKey);
+      if (jsonStr != null && jsonStr.isNotEmpty) {
+        final Map<String, dynamic> rawMap = jsonDecode(jsonStr);
+        final done = rawMap.values.where((v) => v == true).length;
+        if (mounted) {
+          setState(() {
+            _completedCount = done;
+          });
+        }
+      }
+    } catch (e) {
+      // Fallback
+    }
+  }
+
+  String get _tagText {
+    if (widget.title.contains('Loss')) return '🔥 FAT BURN';
+    if (widget.title.contains('Balanced')) return '⚖️ RECOMP';
+    if (widget.title.contains('Endurance')) return '🫁 STAMINA';
+    return '✨ TONING';
+  }
+
+  Color get _tagColor {
+    if (widget.title.contains('Loss')) return Colors.orangeAccent.shade700;
+    if (widget.title.contains('Balanced')) return Colors.purpleAccent.shade700;
+    if (widget.title.contains('Endurance')) return Colors.teal.shade700;
+    return Colors.pinkAccent.shade400;
+  }
+
+  double get _overallProgressRatio => _planTotalTasks > 0 ? (_completedCount / _planTotalTasks).clamp(0.0, 1.0) : 0.0;
+  int get _progressPercent => (_overallProgressRatio * 100).round();
+
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: onPressed,
-        child: Container(
-            width: 200,
-            margin: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 8)],
-            ),
+    return Container(
+      width: 220,
+      margin: const EdgeInsets.only(right: 16, top: 4, bottom: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Material(
+          color: Colors.white,
+          child: InkWell(
+            onTap: widget.onPressed,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                      child: Image.asset(imagePath, height: 160, width: double.infinity, fit: BoxFit.cover),
+                    Image.asset(
+                      widget.imagePath,
+                      height: 130,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.6),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                      ),
                     ),
                     Positioned(
                       top: 10,
                       left: 10,
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.white70,
-                          borderRadius: BorderRadius.circular(20),
+                          color: _tagColor,
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          duration,
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          _tagText,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.6),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          widget.duration,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(14.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12),
-                      _buildProgressIndicator(cardioLevel, Colors.green),
-                      SizedBox(height: 4),
-                      Text("Cardio", style: TextStyle(color: Colors.grey[700])),
-                      SizedBox(height: 8),
-                      _buildProgressIndicator(strengthLevel, Colors.green.shade200),
-                      SizedBox(height: 4),
-                      Text("Strength", style: TextStyle(color: Colors.grey[700])),
+                      Text(
+                        widget.title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 10),
+
+                      // Overall Progress Line
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Overall Progress', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.grey.shade700)),
+                              Text('$_progressPercent%', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _tagColor)),
+                            ],
+                          ),
+                          const SizedBox(height: 3),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: LinearProgressIndicator(
+                              value: _overallProgressRatio,
+                              minHeight: 5,
+                              backgroundColor: Colors.grey[200],
+                              valueColor: AlwaysStoppedAnimation<Color>(_tagColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+
+                      // Dual Ratio Lines (Cardio & Strength)
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Cardio', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                                    Text('${(widget.cardioLevel * 100).round()}%', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.orangeAccent.shade700)),
+                                  ],
+                                ),
+                                const SizedBox(height: 3),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: LinearProgressIndicator(
+                                    value: widget.cardioLevel,
+                                    minHeight: 4,
+                                    backgroundColor: Colors.grey[200],
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.orangeAccent.shade700),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Strength', style: TextStyle(fontSize: 10, color: Colors.grey)),
+                                    Text('${(widget.strengthLevel * 100).round()}%', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.deepPurpleAccent)),
+                                  ],
+                                ),
+                                const SizedBox(height: 3),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: LinearProgressIndicator(
+                                    value: widget.strengthLevel,
+                                    minHeight: 4,
+                                    backgroundColor: Colors.grey[200],
+                                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.deepPurpleAccent),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            _completedCount > 0 ? 'Continue ➔' : 'Start Plan ➔',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: _tagColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
-            ),
-        );
-    }
+          ),
+        ),
+      ),
+    );
+  }
 }
