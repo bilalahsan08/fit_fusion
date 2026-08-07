@@ -1,167 +1,222 @@
-import 'package:fit_fusion/core/routes/app_routes.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:fit_fusion/core/routes/app_routes.dart';
+import 'package:fit_fusion/core/controllers/user_stats_controller.dart';
 
-class UtilityHomePage extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-    )
-    );
-  }
+class UtilityHome extends StatelessWidget {
+  const UtilityHome({super.key});
 
-}
-
-class UtilityHome extends StatefulWidget{
-  @override
-  State<UtilityHome> createState() => _UtilityHomeState();
-}
-
-class _UtilityHomeState extends State<UtilityHome> {
-  @override
-  void initState() {
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true, // Allow background under the AppBar
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: Text(
-          'Utility',
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            color: Colors.black87,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.black87),
+        title: Text(
+          'Utility Studio',
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            color: Colors.black87,
+          ),
+        ),
+        iconTheme: const IconThemeData(color: Colors.black87),
       ),
-      body: Container(
-        color: Colors.grey[200], // Updated: grey background
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  buildCard(
-                    image: 'assets/images/statistics.png',
-                    title: 'Report',
-                    onPressed: () {},
-                  ),
-                  buildCard(
-                    image: 'assets/images/bell.png',
-                    title: 'Reminder',
-                    onPressed: () {
-                    },
-                  ),
-                  buildCard(
-                    image: 'assets/images/bmi.png',
-                    title: 'BMI Calculator',
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.bmiCal);
-                    },
-                  ),
-                  buildCard(
-                    image: 'assets/images/obesity.png',
-                    title: 'Fat Calculator',
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.fatCal);
-                    },
-                  ),
-                  buildCard(
-                    image: 'assets/images/dumbell.png',
-                    title: 'One Rep Max',
-                    onPressed: () {},
-                  ),
-                  buildCard(
-                    image: 'assets/images/calculator.png',
-                    title: 'Basic Metabolic Rate',
-                    onPressed: () {},
-                  ),
-                  buildCard(
-                    image: 'assets/images/power.png',
-                    title: 'Fat Free Mass Index',
-                    onPressed: () {},
-                  ),
-                ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildQuickStatsHeader(),
+              const SizedBox(height: 32),
+              Text(
+                "Health & Body",
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
               ),
-            ),
+              const SizedBox(height: 16),
+              _buildBentoGrid(context, true),
+              const SizedBox(height: 32),
+              Text(
+                "Performance & Tools",
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _buildBentoGrid(context, false),
+              const SizedBox(height: 40),
+            ],
           ),
         ),
       ),
     );
   }
-}
 
-    Widget buildCard({
-      required String image,
-      required String title,
-      required VoidCallback onPressed,
-    }) {
-      return AnimatedContainer(
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-        margin: const EdgeInsets.symmetric(vertical: 10),
+  Widget _buildQuickStatsHeader() {
+    return Obx(() {
+      final controller = Get.find<UserStatsController>();
+      final lastBmi = controller.lastBmi.value;
+      final lastTdee = controller.lastTdee.value;
+
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.95),
-          borderRadius: BorderRadius.circular(20),
+          gradient: LinearGradient(
+            colors: [Colors.teal.shade800, Colors.teal.shade500],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(28),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              spreadRadius: 3,
-              offset: Offset(0, 4),
+            BoxShadow(color: Colors.teal.withValues(alpha: 0.3), blurRadius: 15, offset: const Offset(0, 8)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Your Quick Stats",
+              style: GoogleFonts.poppins(color: Colors.teal.shade50, fontSize: 14, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildStatItem("BMI", lastBmi != null ? lastBmi.toStringAsFixed(1) : "--", "Score"),
+                Container(width: 1, height: 40, color: Colors.teal.shade300.withValues(alpha: 0.5)),
+                _buildStatItem("TDEE", lastTdee != null ? "$lastTdee" : "--", "kcal/day"),
+              ],
             ),
           ],
         ),
-        child: InkWell(
-          onTap: onPressed,
-          borderRadius: BorderRadius.circular(20),
-          splashColor: Colors.blueAccent.withValues(alpha: 0.2),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            height: 110,
-            width: double.infinity,
-            child: Row(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [Colors.blueAccent, Colors.lightBlueAccent],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    radius: 35,
-                    backgroundImage: AssetImage(image),
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
-                Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
-              ],
-            ),
+      );
+    });
+  }
+
+  Widget _buildStatItem(String label, String value, String unit) {
+    return Column(
+      children: [
+        Text(value, style: GoogleFonts.poppins(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 4),
+        Text("$label • $unit", style: TextStyle(color: Colors.teal.shade100, fontSize: 12, fontWeight: FontWeight.w600)),
+      ],
+    );
+  }
+
+  Widget _buildBentoGrid(BuildContext context, bool isHealth) {
+    if (isHealth) {
+      return GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 1.25, // Adjusted ratio to make cards shorter
+        children: [
+          _buildBentoCard(
+            title: "BMI & Ideal\nWeight",
+            icon: Icons.monitor_weight_rounded,
+            color: Colors.teal,
+            onTap: () => Get.toNamed(AppRoutes.bmiCal),
           ),
-        ),
+          _buildBentoCard(
+            title: "Body Fat\nPercentage",
+            icon: Icons.accessibility_new_rounded,
+            color: Colors.purple,
+            onTap: () => Get.toNamed(AppRoutes.fatCal),
+          ),
+          _buildBentoCard(
+            title: "BMR & TDEE\nCalories",
+            icon: Icons.local_fire_department_rounded,
+            color: Colors.orange,
+            onTap: () => Get.toNamed(AppRoutes.bmrCal),
+          ),
+          _buildBentoCard(
+            title: "Hydration\nReminders",
+            icon: Icons.water_drop_rounded,
+            color: Colors.cyan,
+            onTap: () => Get.toNamed(AppRoutes.hydration),
+          ),
+        ],
+      );
+    } else {
+      return GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 1.25, // Adjusted ratio to make cards shorter
+        children: [
+          _buildBentoCard(
+            title: "1-Rep Max\nStrength",
+            icon: Icons.fitness_center_rounded,
+            color: Colors.indigo,
+            onTap: () => Get.toNamed(AppRoutes.oneRepMax),
+          ),
+          _buildBentoCard(
+            title: "FFMI Muscle\nIndex",
+            icon: Icons.electric_bolt_rounded,
+            color: Colors.blue,
+            onTap: () => Get.toNamed(AppRoutes.ffmiCal),
+          ),
+        ],
       );
     }
+  }
 
+  Widget _buildBentoCard({
+    required String title,
+    required IconData icon,
+    required MaterialColor color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Reduced padding
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10), // Reduced icon padding
+              decoration: BoxDecoration(
+                color: color.shade50,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color.shade600, size: 24), // Reduced icon size
+            ),
+            const Spacer(),
+            Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 14, // Slightly smaller text
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+                height: 1.2,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
