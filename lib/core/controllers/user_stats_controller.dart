@@ -8,13 +8,6 @@ class UserStatsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadStats();
-  }
-
-  Future<void> loadStats() async {
-    final prefs = await SharedPreferences.getInstance();
-    lastBmi.value = prefs.getDouble('last_bmi');
-    lastTdee.value = prefs.getInt('last_tdee');
   }
 
   Future<void> saveBmi(double bmi) async {

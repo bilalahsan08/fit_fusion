@@ -23,13 +23,12 @@ Otherwise, answer as a fitness chatbot. Don't answer if it is not related to any
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
+          "systemInstruction": {
+            "parts": [
+              {"text": systemPrompt}
+            ]
+          },
           "contents": [
-            {
-              "role": "user",
-              "parts": [
-                {"text": systemPrompt}
-              ]
-            },
             {
               "role": "user",
               "parts": [

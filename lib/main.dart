@@ -12,14 +12,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     if (Firebase.apps.isEmpty) {
-      await Firebase.initializeApp(
-        options: const FirebaseOptions(
-          apiKey: "AIzaSyALsL5HAa5qOU0M5vse4lM9tI5ZsA4m3g4",
-          appId: "1:471653294026:android:43b60e2a6e2b6675197933",
-          messagingSenderId: "471653294026",
-          projectId: "fit-fusionfinal",
-        ),
-      );
+      await Firebase.initializeApp();
     }
     FirebaseApi().initNotifications();
   } catch (e) {
@@ -28,7 +21,9 @@ void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-  Get.put(UserStatsController(), permanent: true);
+  final userStats = Get.put(UserStatsController(), permanent: true);
+  userStats.lastBmi.value = prefs.getDouble('last_bmi');
+  userStats.lastTdee.value = prefs.getInt('last_tdee');
   
   runApp(MyApp(isLoggedIn: isLoggedIn));
 }
