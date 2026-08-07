@@ -7,7 +7,6 @@ import 'package:fit_fusion/features/workout/legacy/strength/strength.dart';
 import 'package:fit_fusion/features/workout/legacy/cardio/cardio.dart';
 import 'package:fit_fusion/features/workout/legacy/yoga/yoga.dart';
 import 'package:fit_fusion/features/workout/legacy/warmup/warmup.dart';
-import 'package:fit_fusion/features/workout/legacy/lose_fat/supercardio.dart';
 import 'package:fit_fusion/features/workout/legacy/lose_fat/weight_lose.dart';
 import 'package:fit_fusion/features/workout/legacy/lose_fat/balancedfat.dart';
 import 'package:fit_fusion/features/workout/legacy/lose_fat/endurance.dart';
@@ -56,33 +55,60 @@ class _WorkoutHomeState extends State<WorkoutHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              WorkoutCategoryCard(
-                title: 'Strength',
-                image: 'assets/images/strength.png',
-                onPressed: () => Get.to(() => Strength()),
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Left Tall Column
+                  Expanded(
+                    flex: 5,
+                    child: BentoTallCard(
+                      title: 'Strength',
+                      subtitle: 'Muscle & Power',
+                      image: 'assets/images/strength.png',
+                      color1: Colors.blue.shade900,
+                      color2: Colors.blue.shade600,
+                      onPressed: () => Get.to(() => Strength()),
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  // Right Stacked Column
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [
+                        BentoSmallCard(
+                          title: 'Cardio',
+                          subtitle: 'HIIT & Burn',
+                          icon: Icons.local_fire_department_rounded,
+                          color1: Colors.redAccent.shade700,
+                          color2: Colors.orangeAccent.shade700,
+                          onPressed: () => Get.to(() => Cardio()),
+                        ),
+                        const SizedBox(height: 15),
+                        BentoSmallCard(
+                          title: 'Yoga',
+                          subtitle: 'Flexibility',
+                          icon: Icons.self_improvement_rounded,
+                          color1: Colors.teal.shade800,
+                          color2: Colors.teal.shade500,
+                          onPressed: () => Get.to(() => Yoga()),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              WorkoutCategoryCard(
-                title: 'HIIT, Cardio',
-                image: 'assets/images/cardio.png',
-                onPressed: () => Get.to(() => Cardio()),
-              ),
-              WorkoutCategoryCard(
-                title: 'Yoga, Stretching',
-                image: 'assets/images/legrolling.png',
-                onPressed: () => Get.to(() => Yoga()),
-              ),
-              WorkoutCategoryCard(
-                title: 'Warmup, Recovery',
+              const SizedBox(height: 15),
+              BentoWideCard(
+                title: 'Warmup & Recovery',
+                subtitle: 'Prepare & Heal your body',
                 image: 'assets/images/warmup.png',
+                color1: Colors.blueGrey.shade800,
+                color2: Colors.blueGrey.shade600,
                 onPressed: () => Get.to(() => Warmup()),
               ),
-              const SizedBox(height: 20),
-              WorkoutPlanCard(
-                title: 'Super Cardio Burner',
-                imagePath: 'assets/images/up.png',
-                duration: '10 Weeks',
-                onPressed: () => Get.to(() => Supercardio()),
-              ),
+
               const SizedBox(height: 20),
               CustomWorkoutCard(),
               const SizedBox(height: 20),
@@ -160,49 +186,239 @@ class _WorkoutHomeState extends State<WorkoutHome> {
   }
 }
 
-class WorkoutCategoryCard extends StatelessWidget {
+class BentoTallCard extends StatelessWidget {
   final String title;
+  final String subtitle;
   final String image;
+  final Color color1;
+  final Color color2;
   final VoidCallback onPressed;
 
-  const WorkoutCategoryCard({
+  const BentoTallCard({
     super.key,
     required this.title,
+    required this.subtitle,
     required this.image,
+    required this.color1,
+    required this.color2,
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      elevation: 2,
-      margin: const EdgeInsets.only(bottom: 15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(15),
-        splashColor: Colors.grey.withValues(alpha: 0.2),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+    return Container(
+      height: 255, // Tall card height matches 2 stacked small cards (120 * 2 + 15)
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onPressed,
+            borderRadius: BorderRadius.circular(24),
+            child: Stack(
+              children: [
+              Positioned(
+                right: -20,
+                bottom: -10,
+                child: Opacity(
+                  opacity: 0.9,
+                  child: Image.asset(
+                    image,
+                    height: 180,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  image,
-                  height: 80,
-                  width: 80,
-                  fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black87),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(fontSize: 13, color: Colors.grey.shade600, fontWeight: FontWeight.w600),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+      )
+    );
+  }
+}
+
+class BentoSmallCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Color color1;
+  final Color color2;
+  final VoidCallback onPressed;
+
+  const BentoSmallCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color1,
+    required this.color2,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 120,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(24),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: color1.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(icon, color: color1, size: 20),
+                    ),
+                    const Icon(Icons.arrow_outward_rounded, color: Colors.black26, size: 18),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black87),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BentoWideCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String image;
+  final Color color1;
+  final Color color2;
+  final VoidCallback onPressed;
+
+  const BentoWideCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.image,
+    required this.color1,
+    required this.color2,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(24),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: color1.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(Icons.spa_rounded, color: color1, size: 20),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black87),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.arrow_forward_rounded, color: Colors.black26, size: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -350,172 +566,6 @@ class CustomWorkoutCard extends StatelessWidget {
   }
 }
 
-class WorkoutPlanCard extends StatelessWidget {
-  final String title;
-  final String imagePath;
-  final String duration;
-  final VoidCallback onPressed;
-
-  const WorkoutPlanCard({
-    super.key,
-    required this.title,
-    required this.imagePath,
-    required this.duration,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: Material(
-          color: Colors.white,
-          child: InkWell(
-            onTap: onPressed,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  children: [
-                    SizedBox(
-                      height: 180,
-                      width: double.infinity,
-                      child: Image.asset(
-                        imagePath,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned.fill(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black.withValues(alpha: 0.2),
-                              Colors.black.withValues(alpha: 0.7),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 16,
-                      left: 16,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.orangeAccent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Text(
-                          '🔥 HIGH BURN',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 16,
-                      left: 16,
-                      child: Row(
-                        children: [
-                          const Icon(Icons.calendar_today_rounded, size: 16, color: Colors.white),
-                          const SizedBox(width: 6),
-                          Text(
-                            duration,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        '10-Week structured fat burn & endurance plan with daily progress tracking.',
-                        style: TextStyle(fontSize: 13, color: Colors.black54, height: 1.3),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              _iconWithText(Icons.directions_run_rounded, 'Cardio', Colors.orangeAccent.shade700),
-                              const SizedBox(width: 16),
-                              _iconWithText(Icons.fitness_center_rounded, 'Strength', Colors.deepPurpleAccent),
-                            ],
-                          ),
-                          ElevatedButton(
-                            onPressed: onPressed,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orangeAccent.shade700,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                            ),
-                            child: const Text('Start Program', style: TextStyle(fontWeight: FontWeight.bold)),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-
-
-  Widget _iconWithText(IconData icon, String label, Color color) {
-    return Row(
-      children: [
-        Icon(icon, color: color, size: 20),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: color),
-        ),
-      ],
-    );
-  }
-}
 
 
 class FitnessCard extends StatefulWidget {
