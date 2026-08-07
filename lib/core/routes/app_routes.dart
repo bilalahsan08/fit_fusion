@@ -25,6 +25,8 @@ class AppRoutes {
   // Utilities & Calcs
   static const String bmiCal = '/bmiCal';
   static const String fatCal = '/fatCal';
-
-
+  static const String bmrCal = '/bmrCal';
+  static const String oneRepMax = '/oneRepMax';
+  static const String ffmiCal = '/ffmiCal';
+  static const String hydration = '/hydration';
 }

@@ -4,11 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import 'package:fit_fusion/features/doctor/pages/doctor_home_page.dart';
-import 'package:fit_fusion/core/widgets/custom_navbar.dart';
-
-import 'package:fit_fusion/features/auth/login.dart';
-
 class SplashWrapper extends StatefulWidget {
   const SplashWrapper({super.key});
 
@@ -30,31 +25,30 @@ class _SplashWrapperState extends State<SplashWrapper> {
 
   Future<void> _checkLoginStatus() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    User? user = _auth.currentUser;
+    try {
+      User? user = _auth.currentUser;
 
-    if (user != null) {
-      // Check if user is a doctor or patient
-      final doctorSnapshot = await _database.child('Dietition').child(user.uid).get();
+      if (user != null) {
+        // Check if user is a doctor or patient
+        final doctorSnapshot = await _database.child('Dietition').child(user.uid).get();
 
-      if (doctorSnapshot.exists) {
-        Get.offNamed(AppRoutes.doctorHome);
-        return;
+        if (doctorSnapshot.exists) {
+          Get.offNamed(AppRoutes.doctorHome);
+          return;
+        }
+
+        final patientSnapshot = await _database.child('User').child(user.uid).get();
+
+        if (patientSnapshot.exists) {
+          Get.offNamed(AppRoutes.navbar);
+          return;
+        }
       }
-
-      final patientSnapshot = await _database.child('User').child(user.uid).get();
-
-      if (patientSnapshot.exists) {
-        Get.offNamed(AppRoutes.navbar);
-        return;
-      }
-
-      // if user exists but no role found, logout and go to login
-      await _auth.signOut();
-      Get.offNamed(AppRoutes.login);
-    } else {
-      // No user logged in — go to login
-      Get.offNamed(AppRoutes.login);
+    } catch (e) {
+      debugPrint("Firebase check skipped/handled: $e");
     }
+    // Default directly to User Mode (Navbar) for UI development
+    Get.offNamed(AppRoutes.navbar);
   }
 
   @override

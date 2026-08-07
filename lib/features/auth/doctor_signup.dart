@@ -636,7 +636,7 @@ class _RegisterPageState extends State<RegisterPage> {
             });
           }
 
-          Get.to(() => userType == 'Dietition' ? Doctor() : Navbar(),);
+          Get.to(() => userType == 'Dietition' ? const DoctorScreen() : Navbar(),);
         }
       } catch (e) {
         _showErrorDialog(e.toString());

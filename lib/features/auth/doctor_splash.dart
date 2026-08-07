@@ -3,14 +3,8 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:fit_fusion/features/auth/doctor_login.dart';
-
-import 'package:fit_fusion/core/widgets/custom_navbar.dart';
-import 'package:fit_fusion/features/nutrition/doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../doctor/pages/doctor_home_page.dart';
-import 'login.dart';
 
 class SecondarySplashScreen extends StatefulWidget {
   @override
@@ -37,10 +31,11 @@ class _SecondarySplashScreenState extends State<SecondarySplashScreen> {
         DataSnapshot snapshot = await userRef.get().catchError((error) {
           print("Database error: $error");
           _navigateToLogin();
+          // ignore: invalid_return_type_for_catch_error
           return null;
         });
 
-        if (snapshot == null) return; // Error case handled
+// Error case handled
 
         if (snapshot.exists) {
           await Future.delayed(Duration(seconds: 3));
@@ -50,10 +45,11 @@ class _SecondarySplashScreenState extends State<SecondarySplashScreen> {
           snapshot = await userRef.get().catchError((error) {
             print("Database error: $error");
             _navigateToLogin();
+            // ignore: invalid_return_type_for_catch_error
             return null;
           });
 
-          if (snapshot == null) return; // Error case handled
+// Error case handled
 
           if (snapshot.exists) {
             await Future.delayed(Duration(seconds: 3));

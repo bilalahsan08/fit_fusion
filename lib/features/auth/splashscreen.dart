@@ -1,6 +1,5 @@
 import 'package:fit_fusion/core/routes/app_routes.dart';
 import 'package:get/get.dart';
-import 'package:fit_fusion/core/widgets/custom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 

@@ -6,20 +6,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:fit_fusion/core/controllers/user_stats_controller.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyALsL5HAa5qOU0M5vse4lM9tI5ZsA4m3g4",
-      appId: "1:471653294026:android:43b60e2a6e2b6675197933",
-      messagingSenderId: "471653294026",
-      projectId: "fit-fusionfinal",
-    ),
-  );
-  FirebaseApi().initNotifications();
+  try {
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: "AIzaSyALsL5HAa5qOU0M5vse4lM9tI5ZsA4m3g4",
+          appId: "1:471653294026:android:43b60e2a6e2b6675197933",
+          messagingSenderId: "471653294026",
+          projectId: "fit-fusionfinal",
+        ),
+      );
+    }
+    FirebaseApi().initNotifications();
+  } catch (e) {
+    debugPrint("Firebase init skipped/handled: $e");
+  }
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
+  Get.put(UserStatsController(), permanent: true);
+  
   runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
