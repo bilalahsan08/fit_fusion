@@ -1,10 +1,6 @@
 import 'package:fit_fusion/core/controllers/chat_controller.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:fit_fusion/features/chat/doctor_chat_screen.dart';
 import '../models/patient.dart';
 

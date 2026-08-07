@@ -1,12 +1,9 @@
 import 'package:fit_fusion/core/controllers/doctor_controller.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'package:fit_fusion/features/chat/doctor_chat_screen.dart';
 import '../models/doctor.dart';
 
@@ -21,8 +18,7 @@ class DoctorDetailPage extends StatefulWidget {
 
 class _DoctorDetailPageState extends State<DoctorDetailPage> {
   
-  final DatabaseReference _requestDatabase = FirebaseDatabase.instance
-      .ref('Requests'); //  it will store appointments requests
+//  it will store appointments requests
 
   TextEditingController _descriptionController = TextEditingController();
   DateTime? _selectedDate;

@@ -2,7 +2,6 @@ import 'package:fit_fusion/core/routes/app_routes.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fit_fusion/features/auth/doctor_login.dart';
 
 class DoctorProfile extends StatefulWidget {
   const DoctorProfile({super.key});

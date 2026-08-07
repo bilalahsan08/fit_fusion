@@ -1,10 +1,8 @@
 import 'package:fit_fusion/core/controllers/doctor_controller.dart';
 import 'package:get/get.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fit_fusion/features/doctor/models/doctor.dart';
-
 import '../widgets/doctor_card.dart';
 import 'doctor_detail_page.dart';
 
@@ -16,8 +14,6 @@ class DoctorListPage extends StatefulWidget {
 }
 
 class _DoctorListPageState extends State<DoctorListPage> {
-  final DatabaseReference _database =
-  FirebaseDatabase.instance.ref().child('Dietition');
   List<Doctor> _doctors = [];
   bool _isLoading = true;
 

@@ -1,9 +1,6 @@
 import 'package:fit_fusion/core/controllers/doctor_controller.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
 import '../models/booking.dart';
 
 
@@ -16,8 +13,6 @@ class DoctorRequestsPage extends StatefulWidget {
 
 class _DoctorRequestsPageState extends State<DoctorRequestsPage> {
   
-  final DatabaseReference _requestDatabase =
-  FirebaseDatabase.instance.ref().child('Requests');
   List<Booking> _bookings = [];
   bool _isLoading = true;
 
